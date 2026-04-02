@@ -3,6 +3,7 @@ import { withMermaid } from 'vitepress-plugin-mermaid'
 
 export default withMermaid(
   defineConfig({
+    lang: 'zh-CN',
     title: "VitePress MCP 智能检索",
     description: "基于 CNB 知识库 + EdgeOne Edge Function，为 VitePress 文档站点赋予 AI 语义搜索能力",
     srcExclude: ['**/README.md','DocVitePressOMR'],
