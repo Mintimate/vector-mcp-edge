@@ -6,6 +6,9 @@ export default withMermaid(
     title: "VitePress MCP 智能检索",
     description: "基于 CNB 知识库 + EdgeOne Edge Function，为 VitePress 文档站点赋予 AI 语义搜索能力",
     srcExclude: ['**/README.md'],
+    sitemap: {
+      hostname: 'https://vector-mcp-edge.mintimate.cn'
+    },
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }]
     ],
