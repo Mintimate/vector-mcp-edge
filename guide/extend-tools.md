@@ -2,6 +2,10 @@
 
 参考 [Oh My Rime](https://cnb.cool/Mintimate/rime/DocVitePressOMR) 的实现，你可以为 MCP Server 添加更多工具。
 
+::: tip 本项目示例
+本项目自身的 `cloud-functions/mcp/index.js` 已实现 4 个工具，涵盖知识库查询（`query_knowledge_base`）、项目概览（`get_project_info`）、快速指南（`get_quickstart`）和方案对比（`get_solutions`），可作为多工具路由分发的参考。详见 [本站 MCP 端点](/features/mcp-endpoint)。
+:::
+
 ## 静态数据工具
 
 对于不需要动态查询的信息（如下载链接、作者信息），可以直接在代码中定义静态数据：

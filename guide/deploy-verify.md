@@ -67,6 +67,10 @@ curl -X POST https://<你的域名>/mcp \
 - 知识库查询结果是否覆盖最新文档
 - CORS 与鉴权头是否正确
 
+::: tip 本站即最佳示例
+本项目自身就内置了一个可用的 MCP 端点（`https://vector-mcp-edge.mintimate.cn/mcp`），提供了 4 个工具。你可以将其作为参考，查看 [本站 MCP 端点](/features/mcp-endpoint) 了解详情并用 `curl` 验证。
+:::
+
 ## 下一步
 
 进入维护与优化：

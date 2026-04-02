@@ -8,6 +8,7 @@
 - [架构全景图](./architecture.md)：从全局视角理解项目的整体架构和数据流向。
 - [方案一：接入外部 AI 工具](./solution-mcp.md)：重点方案，展示如何让 Cursor、Claude 等工具检索你的文档。
 - [方案二：自建 Go 服务 RAG](./solution-rag.md)：进阶方案，展示如何在网页端直接提供 AI 问答体验。
+- [本站 MCP 端点](./mcp-endpoint.md)：本项目自身就内置了一个可用的 MCP Server，可直接接入 AI 工具。
 
 ## 下一步
 

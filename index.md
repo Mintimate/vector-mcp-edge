@@ -18,21 +18,21 @@ hero:
 
 features:
   - icon: 🎯
-    title: 一条主线学完
-    details: 从 VitePress 初始化、CNB 托管、知识库向量化到 MCP Server 部署验证，按主线教程一步步完成。
-  - icon: 🔀
-    title: 两套方案清晰分层
-    details: 方案一（重点）用于外部 AI 工具接入；方案二（进阶）用于网页端 Go RAG 问答。先主线，后选型。
+    title: 手把手搭建教程
+    details: 从 VitePress 初始化、CNB 托管、知识库向量化到 MCP Server 部署验证，一条主线带你从零到一。
   - icon: 🧠
-    title: CNB 知识库
-    details: 一行配置实现文档向量化，无需自建向量数据库。push 即触发，自动分块、Embedding、索引构建。
+    title: CNB 知识库一键向量化
+    details: push 即触发自动分块、Embedding、索引构建，无需自建向量数据库，一行配置即可实现文档语义检索。
   - icon: ⚡
-    title: EdgeOne Edge Function
-    details: 在边缘函数中实现 MCP Server，零服务器成本、全球加速、自动部署，真正的零运维体验。
-  - icon: 🛠️
-    title: 运维内容补齐
-    details: 新增最佳实践、FAQ、故障排查、术语表，覆盖从落地到维护的全流程问题。
+    title: EdgeOne 边缘函数零成本部署
+    details: 在 EdgeOne Edge Function 中运行 MCP Server，零服务器成本、全球加速、自动部署，真正的零运维。
+  - icon: 🔀
+    title: 两种方案按需选择
+    details: 方案一：让 Cursor、Claude 等 AI 工具直接检索你的文档。方案二（进阶）：网页端内嵌 Go RAG 问答。先主线，后选型。
   - icon: 🌐
-    title: MCP 协议支持
-    details: 标准化 Model Context Protocol 接口，无缝对接各类主流 AI 助手与大模型平台。
+    title: 标准 MCP 协议
+    details: 遵循 Model Context Protocol 标准接口，你的文档知识库可被任何支持 MCP 的 AI 助手直接接入。
+  - icon: 🔌
+    title: 本站即最佳示例
+    details: 本项目自身就内置了一个可用的 MCP 端点，部署后即可让 AI 工具检索本教程内容，边学边验证。
 ---

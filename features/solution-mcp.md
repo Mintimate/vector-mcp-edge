@@ -29,6 +29,21 @@ flowchart LR
 }
 ```
 
+::: tip 真实示例
+本项目自身就提供了一个可用的 MCP 端点，你可以直接复制以下配置来验证效果。详见 [本站 MCP 端点](./mcp-endpoint)。
+
+```json
+{
+  "servers": {
+    "vector-mcp-edge-docs": {
+      "url": "https://vector-mcp-edge.mintimate.cn/mcp",
+      "type": "streamable-http"
+    }
+  }
+}
+```
+:::
+
 ## 添加到 Claude Desktop
 
 编辑配置文件 `~/Library/Application Support/Claude/claude_desktop_config.json`：

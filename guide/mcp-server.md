@@ -108,7 +108,7 @@ export async function onRequest(context) {
 ```
 
 ::: tip 完整代码
-MCP Server 的完整实现代码较长，包括 `initialize`、`ping`、`tools/list`、`tools/call` 等方法的路由和响应格式化。可参考项目中的 `cloud-functions/mcp/index.js` 文件。
+MCP Server 的完整实现代码较长，包括 `initialize`、`ping`、`tools/list`、`tools/call` 等方法的路由和响应格式化。本项目的 `cloud-functions/mcp/index.js` 内置了 4 个工具（`query_knowledge_base`、`get_project_info`、`get_quickstart`、`get_solutions`），可作为完整的参考实现。另见 [本站 MCP 端点](/features/mcp-endpoint) 了解实际效果。
 :::
 
 ## 项目结构
