@@ -5,6 +5,7 @@ export default withMermaid(
   defineConfig({
     title: "VitePress MCP 智能检索",
     description: "基于 CNB 知识库 + EdgeOne Edge Function，为 VitePress 文档站点赋予 AI 语义搜索能力",
+    srcExclude: ['**/README.md'],
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }]
     ],
