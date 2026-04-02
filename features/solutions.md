@@ -22,7 +22,7 @@ flowchart TD
 | **定位** | 给外部 AI 工具使用 | 网页端 AI 问答 |
 | **LLM 调用** | 由外部工具自带 | Go 后端调用（如 DeepSeek） |
 | **服务器** | 无（EdgeOne 边缘函数） | 需自建或云服务器 |
-| **前端改动** | 无需改动 VitePress | 需嵌入 AI 助手 Vue 组件 |
+| **前端改动** | 无需改动 VitePress | 本项目已内置组件，需配置环境变量 |
 | **适用场景** | 开发者用 AI 工具查文档 | 终端用户在网页上问答 |
 | **上线速度** | 快（推荐首选） | 中等（需要联调） |
 | **运维复杂度** | 低 | 中-高 |
@@ -41,7 +41,7 @@ flowchart TD
 
 - 希望在**网页端**直接提供 AI 问答体验
 - 面向的是不使用 AI 开发工具的**终端用户**
-- 愿意维护一个 Go 后端服务
+- 愿意手动部署并维护一个 Go 后端服务
 - 需要更丰富的交互（思考链展示、流式回答、验证码等）
 
 ## 渐进式演进建议
@@ -57,4 +57,4 @@ flowchart TD
 - [方案二：自建 Go 服务 RAG](./solution-rag.md)
 - [架构全景图](./architecture.md)
 - 博客文章：[将 VitePress 文档数据向量化，配合 RAG 实现 AI 助手插件](https://www.mintimate.cn/2025/08/24/knowledgeRagCnb/)
-- Go 后端开源项目：[Knowledge Maker](https://github.com/Mintimate/knowledge-maker)
+- Go 后端开源项目：[Knowledge Maker](https://cnb.cool/Mintimate/tool-forge/knowledge-maker)

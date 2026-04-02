@@ -56,20 +56,12 @@ aiChat/
 
 ## Go 后端服务
 
-使用开源项目 [Knowledge Maker](https://github.com/Mintimate/knowledge-maker)，通过配置文件接入：
+方案二不是“开箱即用 SaaS”，而是需要你**手动部署 Go 后端**。本项目前端组件已内置，只负责聊天交互；真正的 RAG 检索、模型调用和流式返回由后端服务完成。
 
-```yaml
-# AI 服务配置
-ai:
-  base_url: "https://api.deepseek.com/v1"
-  api_key: "your_api_key_here"
-  model: "deepseek-chat"
+后端代码与镜像：
 
-# 知识库配置（对接 CNB 知识库 API）
-knowledge:
-  base_url: "https://api.cnb.cool/<用户名>/<仓库组>/<仓库名>/-/knowledge/base/query"
-  token: "your_cnb_token_here"
-```
+- 代码仓库（CNB）：[knowledge-maker](https://cnb.cool/Mintimate/tool-forge/knowledge-maker)
+- 容器镜像：`docker.cnb.cool/mintimate/tool-forge/knowledge-maker`
 
 部署后提供以下 API：
 
@@ -78,6 +70,77 @@ knowledge:
 | `/api/v1/mcp/tools` | GET | 获取 MCP 工具列表 |
 | `/api/v1/mcp/tools/call` | POST | 调用指定 MCP 工具 |
 | `/api/v1/mcp/llm/chat` | POST (SSE) | LLM 流式对话，支持 Tool Calling |
+
+### 方式一：使用 Docker Compose（推荐）
+
+在服务器新建 `docker-compose.yml`：
+
+```yaml
+services:
+  vector-mcp-edge:
+    image: docker.cnb.cool/mintimate/tool-forge/knowledge-maker
+    container_name: vector-mcp-edge
+    volumes:
+      - ./logs:/app/logs
+    ports:
+      - "8100:8082"
+    environment:
+      - PORT=8082
+      - GIN_MODE=debug
+      - AI_BASE_URL=https://api.cnb.cool/<你的组织>/<你的项目>/-/ai
+      - AI_API_KEY=<你的AI_KEY>
+      - AI_MODEL=hunyuan-t1-20250711
+      - KNOWLEDGE_BASE_URL=https://api.cnb.cool/<用户名>/<仓库组>/<仓库名>/-/knowledge/base/query
+      - KNOWLEDGE_TOKEN=<你的CNB_TOKEN>
+      - KNOWLEDGE_TOP_K=3
+      - RAG_SYSTEM_PROMPT=|
+        你是 AI 助手，专门检索 AI、MCP 和 CNB、云原生构建有关问题，拒绝其他内容。
+        请严格基于知识库内容回答，并使用用户提问的语言。
+    restart: unless-stopped
+```
+
+启动与查看状态：
+
+```bash
+docker compose up -d
+docker compose ps
+docker compose logs -f vector-mcp-edge
+```
+
+### 方式二：手动构建运行（可选）
+
+如果你希望自行改造代码，可直接拉取后端仓库手动运行：
+
+```bash
+git clone https://cnb.cool/Mintimate/tool-forge/knowledge-maker.git
+cd knowledge-maker
+# 按仓库说明配置环境变量或配置文件后启动
+```
+
+### 后端环境变量说明
+
+| 变量名 | 必填 | 说明 |
+|------|------|------|
+| `PORT` | 否 | 服务监听端口，默认 `8082` |
+| `GIN_MODE` | 否 | `debug` 或 `release` |
+| `AI_BASE_URL` | 是 | 模型网关地址 |
+| `AI_API_KEY` | 是 | 模型调用密钥 |
+| `AI_MODEL` | 是 | 模型名称 |
+| `KNOWLEDGE_BASE_URL` | 是 | CNB 知识库查询接口 |
+| `KNOWLEDGE_TOKEN` | 是 | CNB 访问令牌 |
+| `KNOWLEDGE_TOP_K` | 否 | 召回条数，默认可设 `3` |
+| `RAG_SYSTEM_PROMPT` | 否 | 系统提示词，可多行 |
+
+### 后端验收（上线前建议）
+
+将 `<你的后端域名>` 替换成实际地址，执行以下检查：
+
+```bash
+curl -sS https://<你的后端域名>/api/v1/mcp/tools
+curl -sS -X POST https://<你的后端域名>/api/v1/mcp/tools/call \
+  -H "Content-Type: application/json" \
+  -d '{"name":"search_docs","arguments":{"query":"MCP 是什么"}}'
+```
 
 ## 环境变量配置
 
@@ -107,9 +170,10 @@ yarn dev
 
 ## 部署步骤
 
-1. **部署 Go 后端**：参考 [Knowledge Maker](https://github.com/Mintimate/knowledge-maker) 文档，配置 LLM 和知识库后启动服务
-2. **配置环境变量**：设置 `AI_MCP_BASE_URL` 指向 Go 后端地址
-3. **重新构建部署**：`git push` 后 VitePress 会自动构建并部署，AI 助手即可使用
+1. **先部署 Go 后端**：优先用上面的 Docker Compose 启动 `knowledge-maker` 服务
+2. **验收后端接口**：确认 `/api/v1/mcp/tools` 和 `/api/v1/mcp/tools/call` 可访问
+3. **配置前端环境变量**：将 `AI_MCP_BASE_URL` 设置为 `https://<你的后端域名>/api/v1/mcp`
+4. **重新构建部署站点**：`git push` 后 VitePress 自动构建，网页端 AI 助手即可连通
 
 ## 方案优势
 
