@@ -23,6 +23,7 @@
 ### 实战与维护
 
 - [扩展更多 MCP 工具](./extend-tools.md)
+- [配置网页端 AI 助手](./ai-assistant.md)
 - [最佳实践](./best-practices.md)
 - [常见问题 FAQ](./faq.md)
 - [故障排查](./troubleshooting.md)

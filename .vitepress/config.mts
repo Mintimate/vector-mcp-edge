@@ -27,7 +27,7 @@ export default withMermaid(
               { text: '方案对比与选型', link: '/features/solutions' },
               { text: '架构全景图', link: '/features/architecture' },
               { text: 'Opt1: 接入外部 AI 工具', link: '/features/solution-mcp' },
-              { text: 'Opt2: 自建 Go 服务 RAG', link: '/features/solution-rag' },
+              { text: 'Opt2: 网页端 AI 助手', link: '/features/solution-rag' },
               { text: '本站 MCP 端点', link: '/features/mcp-endpoint' }
             ]
           }
@@ -53,6 +53,7 @@ export default withMermaid(
             text: '实战与维护',
             items: [
               { text: '扩展更多 MCP 工具', link: '/guide/extend-tools' },
+              { text: '配置网页端 AI 助手', link: '/guide/ai-assistant' },
               { text: '最佳实践', link: '/guide/best-practices' },
               { text: '常见问题 FAQ', link: '/guide/faq' },
               { text: '故障排查', link: '/guide/troubleshooting' },
