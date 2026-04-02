@@ -1,0 +1,28 @@
+# 依赖
+node_modules
+
+# VitePress
+.vitepress/cache
+.vitepress/dist
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.idea
+*.swp
+*.swo
+*~
+
+# 环境变量
+.env
+.env.*
+
+# 日志
+*.log
+npm-debug.log*
+
+# 包管理器锁文件（保留 package-lock.json，忽略其他）
+yarn.lock
+pnpm-lock.yaml

@@ -1,0 +1,25 @@
+{
+  "name": "vector-mcp-edge",
+  "version": "1.0.0",
+  "description": "给 VitePress 添加 MCP 智能检索功能 - 基于 CNB 知识库 + EdgeOne Edge Function",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://cnb.cool/shenzhen/lecturer/vector-mcp-edge"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "mermaid": "^11.14.0",
+    "vitepress-plugin-mermaid": "^2.0.17"
+  }
+}
