@@ -35,13 +35,68 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* 定义动画 */
-@keyframes floatAnimation {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0); }
+/* ===== Hero Logo 放大 & 美化 ===== */
+
+/* 背景光晕：渐变 + 居中，不做位移 */
+.VPHero .image-bg {
+  background: radial-gradient(circle, rgba(255, 140, 0, 0.3), rgba(0, 191, 255, 0.25) 60%, transparent 80%) !important;
+  opacity: 0.9 !important;
 }
 
-.image-container {
-    animation: floatAnimation 3s infinite;
+/* 桌面端大尺寸 */
+@media (min-width: 960px) {
+  .VPHero .image-container {
+    width: 420px !important;
+    height: 420px !important;
+  }
+  .VPHero .image-container .image-src {
+    width: 360px !important;
+    height: 360px !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+/* 移动端适配 */
+@media (max-width: 959px) {
+  .VPHero .image-container {
+    width: 300px !important;
+    height: 300px !important;
+    margin: 0 auto 24px !important;
+  }
+  .VPHero .image-container .image-src {
+    width: 260px !important;
+    height: 260px !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+/* Logo 投影 — 仅用轻微 drop-shadow 补强，不做独立光晕 */
+.VPHero .image-container .image-src {
+  filter: drop-shadow(0 0 18px rgba(255, 140, 0, 0.2)) !important;
+  transition: filter 0.4s ease !important;
+}
+
+.VPHero .image-container:hover .image-src {
+  filter: drop-shadow(0 0 28px rgba(255, 140, 0, 0.4))
+          drop-shadow(0 0 48px rgba(0, 191, 255, 0.25)) !important;
+}
+
+/* 定义浮动动画 */
+@keyframes floatAnimation {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-64px); }
+  100% { transform: translateY(0); }
+}
+
+/* 移动端浮动动画幅度减半 */
+@media (max-width: 959px) {
+  @keyframes floatAnimation {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-32px); }
+    100% { transform: translateY(0); }
+  }
+}
+
+.VPHero .image-container {
+  animation: floatAnimation 4s ease-in-out infinite;
 }
