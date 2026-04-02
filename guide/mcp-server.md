@@ -1,0 +1,132 @@
+# Edge Function 实现 MCP Server
+
+这是本教程的核心部分。我们将在 EdgeOne Pages 的 Cloud Function 中实现一个完整的 MCP Server。
+
+## MCP 协议简介
+
+[MCP（Model Context Protocol）](https://modelcontextprotocol.io/) 是一个开放协议，用于标准化 AI 应用与外部数据源/工具之间的通信：
+
+- **Tools**：AI 可以调用的工具（如搜索、查询）
+- **Resources**：AI 可以读取的资源
+- **Transport**：通信方式（本教程使用 Streamable HTTP）
+
+## 创建 Edge Function
+
+```bash
+mkdir -p cloud-functions/mcp
+```
+
+## 关键代码讲解
+
+### 常量与配置
+
+```javascript
+// 知识库 API 地址（替换为你自己的仓库路径）
+const KNOWLEDGE_API_URL =
+  "https://api.cnb.cool/<用户名>/<仓库组>/<仓库名>/-/knowledge/base/query";
+
+// CNB 平台会自动注入此环境变量，无需手动配置
+const KNOWLEDGE_AUTH_TOKEN = process.env.CNB_TOKEN;
+
+const SERVER_INFO = { name: "my-docs-mcp", version: "1.0.0" };
+const SUPPORTED_PROTOCOL_VERSION = "2025-03-26";
+```
+
+### 定义 MCP Tools
+
+```javascript
+const TOOLS = [
+  {
+    name: "query_knowledge_base",
+    description:
+      "Search the documentation knowledge base using semantic vector search. " +
+      "Supports both semantic query and keyword-based search.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: {
+          type: "string",
+          description: "The search query in natural language.",
+        },
+        keyword: {
+          type: "string",
+          description: "Optional keywords, separated by semicolons.",
+        },
+        top_k: {
+          type: "number",
+          description: "Max results to return (default: 5, range: 1-10).",
+        },
+      },
+      required: ["query"],
+    },
+  },
+];
+```
+
+### 知识库查询函数
+
+```javascript
+async function queryKnowledgeBase(query, keyword, topK) {
+  const payload = { query };
+  if (keyword) payload.keyword = keyword;
+  if (topK && topK > 0) payload.top_k = topK;
+
+  const response = await fetch(KNOWLEDGE_API_URL, {
+    method: "POST",
+    headers: {
+      Authorization: KNOWLEDGE_AUTH_TOKEN,
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) throw new Error(`API error: ${response.status}`);
+  return await response.json();
+}
+```
+
+### HTTP 入口
+
+```javascript
+export async function onRequest(context) {
+  const { request } = context;
+  const method = request.method.toUpperCase();
+
+  if (method === "OPTIONS") return new Response(null, { status: 204, headers: CORS_HEADERS });
+  if (method === "GET")     return jsonResponse(200, { /* 服务发现信息 */ });
+  if (method === "DELETE")  return new Response(null, { status: 200, headers: CORS_HEADERS });
+
+  if (method === "POST") {
+    const body = await request.json();
+    const acceptHeader = request.headers.get("accept") || "";
+    const useSSE = acceptHeader.includes("text/event-stream");
+
+    const result = await handleMCPRequest(body);
+    return useSSE ? sseResponse(result) : jsonResponse(200, result);
+  }
+}
+```
+
+::: tip 完整代码
+MCP Server 的完整实现代码较长，包括 `initialize`、`ping`、`tools/list`、`tools/call` 等方法的路由和响应格式化。可参考项目中的 `cloud-functions/mcp/index.js` 文件。
+:::
+
+## 项目结构
+
+```
+my-docs/
+├── .cnb.yml                        # CNB 流水线配置
+├── edgeone.json                    # EdgeOne Pages 部署配置
+├── package.json
+├── index.md                        # 首页
+├── guide/                          # 文档目录
+├── cloud-functions/
+│   └── mcp/
+│       └── index.js                # MCP Server（Edge Function）
+└── .vitepress/
+    └── config.mts                  # VitePress 配置
+```
+
+## 下一步
+
+- [部署与验证](./deploy-verify.md)
