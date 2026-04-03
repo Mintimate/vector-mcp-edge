@@ -48,7 +48,7 @@ export default withMermaid(
           {
             text: '开始这里',
             items: [
-              { text: '文档导航', link: '/guide/' },
+              { text: '搭建教程', link: '/guide/' },
               { text: '快速开始', link: '/guide/getting-started' }
             ]
           },
