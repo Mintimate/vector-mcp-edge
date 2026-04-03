@@ -17,7 +17,7 @@ export default withMermaid(
       logo: '/logo.svg',
       nav: [
         { text: '首页', link: '/' },
-        { text: '功能/效果', link: '/features/' },
+        { text: '上手体验', link: '/features/' },
         { text: '搭建教程', link: '/guide/' }
       ],
       sidebar: {
