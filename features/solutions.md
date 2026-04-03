@@ -1,6 +1,6 @@
 # 方案对比与选型
 
-本教程提供两套方案，都基于 CNB 知识库接口封装，核心区别在于服务形态和使用场景。
+本教程提供两套方案，都基于 CNB 知识库接口封装，核心区别在于**服务形态**和**使用场景**。
 
 ## 一图理解
 
@@ -24,8 +24,8 @@ flowchart TD
 | **服务器** | 无（EdgeOne 边缘函数） | 需自建或云服务器 |
 | **前端改动** | 无需改动 VitePress | 本项目已内置组件，需配置环境变量 |
 | **适用场景** | 开发者用 AI 工具查文档 | 终端用户在网页上问答 |
-| **上线速度** | 快（推荐首选） | 中等（需要联调） |
-| **运维复杂度** | 低 | 中-高 |
+| **上线速度** | ⚡ 快（推荐首选） | 中等（需要联调） |
+| **运维复杂度** | 低 | 中 ~ 高 |
 | **共同点** | 都封装 CNB 知识库接口 | 都封装 CNB 知识库接口 |
 
 ## 如何选择？
@@ -37,12 +37,16 @@ flowchart TD
 - 追求**零运维**、零服务器成本
 - 只需要三个文件即可完成：`.cnb.yml` + `edgeone.json` + `cloud-functions/mcp/index.js`
 
+👉 [前往方案一详情](./solution-mcp.md)
+
 ### 选方案二，如果你：
 
 - 希望在**网页端**直接提供 AI 问答体验
 - 面向的是不使用 AI 开发工具的**终端用户**
 - 愿意手动部署并维护一个 Go 后端服务
 - 需要更丰富的交互（思考链展示、流式回答、验证码等）
+
+👉 [前往方案二详情](./solution-rag.md)
 
 ## 渐进式演进建议
 
@@ -53,8 +57,6 @@ flowchart TD
 
 ## 延伸阅读
 
-- [方案一：接入外部 AI 工具](./solution-mcp.md)
-- [方案二：自建 Go 服务 RAG](./solution-rag.md)
 - [架构全景图](./architecture.md)
 - 博客文章：[将 VitePress 文档数据向量化，配合 RAG 实现 AI 助手插件](https://www.mintimate.cn/2025/08/24/knowledgeRagCnb/)
 - Go 后端开源项目：[Knowledge Maker](https://cnb.cool/Mintimate/tool-forge/knowledge-maker)

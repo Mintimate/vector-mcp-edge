@@ -23,13 +23,19 @@ export default withMermaid(
       sidebar: {
         '/features/': [
           {
-            text: '功能与效果',
+            text: '这里开始',
             items: [
-              { text: '方案对比与选型', link: '/features/solutions' },
+              { text: '功能与效果', link: '/features/' },
+              { text: '方案选型', link: '/features/solutions' }
+            ]
+          },
+          {
+            text: '架构与方案',
+            items: [
               { text: '架构全景图', link: '/features/architecture' },
+              { text: '本站 MCP 端点', link: '/features/mcp-endpoint' },
               { text: 'Opt1: 接入外部 AI 工具', link: '/features/solution-mcp' },
-              { text: 'Opt2: 网页端 AI 助手', link: '/features/solution-rag' },
-              { text: '本站 MCP 端点', link: '/features/mcp-endpoint' }
+              { text: 'Opt2: 网页端 AI 助手', link: '/features/solution-rag' }
             ]
           }
         ],

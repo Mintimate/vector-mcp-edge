@@ -5,21 +5,39 @@
 ## 总体架构
 
 ```mermaid
-flowchart TD
-    A["📄 VitePress Markdown"] -->|push| B["🔄 CNB 流水线<br/>知识库向量化"]
-    B --> C["🗄️ CNB 知识库 API"]
-    C --> D["⚡ 方案一（重点）<br/>EdgeOne MCP Server"]
-    C --> E["🔧 方案二（进阶）<br/>Go RAG 服务"]
-    D --> F["🤖 外部 AI 工具<br/>Cursor / Claude 等"]
-    E --> G["💬 VitePress 前端<br/>AI 助手组件"]
+flowchart TB
+    %% 强制放大字体与节点间距，防止缩放导致字太小
+    classDef default fontSize:16px,padding:16px;
 
-    style A fill:#e1f5fe,stroke:#0288d1
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#e8f5e9,stroke:#388e3c
-    style D fill:#f3e5f5,stroke:#7b1fa2
-    style E fill:#fce4ec,stroke:#c62828
-    style F fill:#f3e5f5,stroke:#7b1fa2
-    style G fill:#fce4ec,stroke:#c62828
+    subgraph Base ["🗄️ 知识底座"]
+        A["📄 VitePress Markdown"] -->|文档 push| B["🔄 CNB 流水线<br/>分块 & 向量化"]
+        B --> C["🗄️ CNB 知识库 API"]
+    end
+
+    subgraph PlanA ["⚡ 方案一：MCP 工具链"]
+        D["EdgeOne MCP Server"] --> F["🤖 外部 AI 工具<br/>Cursor / Claude 等"]
+    end
+
+    subgraph PlanB ["🔧 方案二：RAG 编排链"]
+        E["Go RAG 服务"] --> G["💬 VitePress 前端<br/>AI 助手组件"]
+    end
+
+    C -->|MCP 协议| D
+    C -->|API 调用| E
+
+    %% 泳道/分组样式
+    style Base fill:#f8f9fa,stroke:#cfd8dc,stroke-width:2px,stroke-dasharray: 5 5
+    style PlanA fill:#f3e5f5,stroke:#ce93d8,stroke-width:2px,stroke-dasharray: 5 5
+    style PlanB fill:#fce4ec,stroke:#f48fb1,stroke-width:2px,stroke-dasharray: 5 5
+
+    %% 节点样式
+    style A fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+    style B fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style C fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style D fill:#ffffff,stroke:#7b1fa2,stroke-width:2px
+    style F fill:#ffffff,stroke:#5e35b1,stroke-width:2px
+    style E fill:#ffffff,stroke:#c62828,stroke-width:2px
+    style G fill:#ffffff,stroke:#ad1457,stroke-width:2px
 ```
 
 ## 数据流说明
