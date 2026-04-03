@@ -33,9 +33,14 @@ export default withMermaid(
             text: '架构与方案',
             items: [
               { text: '架构全景图', link: '/features/architecture' },
-              { text: '本站 MCP 端点', link: '/features/mcp-endpoint' },
-              { text: 'Opt1: 接入外部 AI 工具', link: '/features/solution-mcp' },
-              { text: 'Opt2: 网页端 AI 助手', link: '/features/solution-rag' }
+              { text: '场景一：Serverless MCP', link: '/features/solution-mcp' },
+              { text: '场景二：Go RAG 网页助手', link: '/features/solution-rag' }
+            ]
+          },
+          {
+            text: '在线体验',
+            items: [
+              { text: '本站 MCP 端点', link: '/features/mcp-endpoint' }
             ]
           }
         ],
@@ -79,6 +84,18 @@ export default withMermaid(
       },
       search: {
         provider: 'local'
+      }
+    },
+    mermaid: {
+      theme: 'base',
+      flowchart: {
+        padding: 16,
+        nodeSpacing: 50,
+        rankSpacing: 50
+      },
+      themeVariables: {
+        fontSize: '18px',
+        fontFamily: '"PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif'
       }
     }
   })

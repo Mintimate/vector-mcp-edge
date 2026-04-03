@@ -6,8 +6,6 @@
 
 ```mermaid
 flowchart TB
-    %% 强制放大字体与节点间距，防止缩放导致字太小
-    classDef default fontSize:16px,padding:16px;
 
     subgraph Base ["🗄️ 知识底座"]
         A["📄 VitePress Markdown"] -->|文档 push| B["🔄 CNB 流水线<br/>分块 & 向量化"]
