@@ -1,3 +1,13 @@
+$:
+  vscode:
+    - services:
+        - vscode
+        - docker
+      docker:
+        image: docker.cnb.cool/flyinbug/dev-ops/nodejs:latest
+      stages:
+        - name: 安装依赖
+          script: yarn
 main:
   push:
     - name: "向量化数据"
