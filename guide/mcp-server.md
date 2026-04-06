@@ -2,6 +2,8 @@
 
 这是本教程的核心部分。我们将在 EdgeOne Pages 的 Cloud Function 中实现一个完整的 MCP Server。
 
+其实，MCP Server 的实现并不复杂，只需要按照 MCP 协议的规范来实现即可。但是，为了让实现更符合实际场景，我们还需要考虑一些额外的细节。
+
 ## MCP 协议简介
 
 [MCP（Model Context Protocol）](https://modelcontextprotocol.io/) 是一个开放协议，用于标准化 AI 应用与外部数据源/工具之间的通信：
@@ -10,7 +12,40 @@
 - **Resources**：AI 可以读取的资源
 - **Transport**：通信方式（本教程使用 Streamable HTTP）
 
+```mermaid
+graph LR
+    subgraph LLM ["🤖 LLM 客户端"]
+        A[Claude / Cursor / Copilot]
+    end
+
+    subgraph MCP ["🔌 MCP Server（本教程实现）"]
+        B[Protocol Layer<br/>MCP 协议层]
+        C[Tools<br/>工具注册与调用]
+        D[Resources<br/>资源读取]
+    end
+
+    subgraph External ["📦 外部数据源"]
+        E[(知识库 API<br/>CNB Vector Search)]
+        F[(项目信息)]
+        G[(文档内容)]
+    end
+
+    A -- "Streamable HTTP / SSE" --> B
+    B --> C
+    B --> D
+    C -- "tools/call" --> E
+    C --> F
+    D --> G
+    E -- "返回相关文档片段" --> C
+    C -- "Tool Result" --> B
+    B -- "JSON-RPC Response" --> A
+```
+
 ## 创建 Edge Function
+
+EdgeOne Pages 支持 [Cloud Function](https://pages.edgeone.ai/zh/document/pages-functions-overview)，目前支持 Node Function 相关函数，我们可以基于这个，包装上游(CNB的)向量数据库的 API 接口，实现一个 MCP Server。
+
+EdgeOne Pages 会在部署的时候，自动扫描`cloud-function`下的文件，完成 Cloud function 的构建，所以我们创建一个`cloud-functions/mcp`的文件夹，在里面创建一个`index.js`的文件，用于实现 MCP Server。
 
 ```bash
 mkdir -p cloud-functions/mcp
@@ -84,6 +119,8 @@ async function queryKnowledgeBase(query, keyword, topK) {
   return await response.json();
 }
 ```
+
+![知识库查询函数](./images/query-knowledge-base.webp)
 
 ### HTTP 入口
 
