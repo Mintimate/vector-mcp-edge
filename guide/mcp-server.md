@@ -120,7 +120,7 @@ async function queryKnowledgeBase(query, keyword, topK) {
 }
 ```
 
-![知识库查询函数](./images/query-knowledge-base.webp)
+![知识库查询函数](./assets/query-knowledge-base.webp)
 
 ### HTTP 入口
 
