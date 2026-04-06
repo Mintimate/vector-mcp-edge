@@ -17,6 +17,10 @@ git remote add origin https://cnb.cool/<你的组织名称>/my-docs.git
 git push -u origin main
 ```
 
+比如本项目的 CNB 仓库地址为：https://cnb.cool/shenzhen/lecturer/vector-mcp-edge，提交后的 Git 仓库界面为(截图自: [c7c267c870](https://cnb.cool/shenzhen/lecturer/vector-mcp-edge/-/commit/c7c267c870d8f1985b37952171192b71a7fc79d0)):
+
+![CNB 的仓库详情](./assets/cnb-repo-detail.webp)
+
 ## 配置 EdgeOne Pages 部署
 
 当前使用 EdgeOne Pages 作为边缘部署平台，主要两个好处：
@@ -42,6 +46,10 @@ git push -u origin main
 | `nodeVersion` | 指定 Node.js 版本 |
 
 详细的内容请参考 [EdgeOne Pages 项目指南](https://pages.edgeone.ai/zh/document/edgeone-json)。
+
+后续的 EdgeOne Pages 触发后，会自动进行部署:
+
+![EdgeOne Pages 触发部署](./assets/edgeone-pages-deploy.webp)
 
 ## 为什么选择 CNB？
 
