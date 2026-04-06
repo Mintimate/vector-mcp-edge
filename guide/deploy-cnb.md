@@ -79,6 +79,8 @@ CNB（Cloud Native Build）是腾讯云推出的云原生构建平台，不仅�
 | **协作开发** | 支持团队分支协作与实时预览，随时查看代码效果 |
 | **免费额度** | 提供免费使用额度，个人项目和小型站点零成本上线 |
 
+![EdgeOne Pages 的免费额度](./assets/limit-of-edgeone-pages.webp)
+
 ::: tip 本项目为什么用 EdgeOne Pages？
 1. VitePress 基于 Node.js，可以直接部署静态站点到 EdgeOne Pages
 2. Cloud Function 支持在边缘运行 MCP Server，零服务器成本

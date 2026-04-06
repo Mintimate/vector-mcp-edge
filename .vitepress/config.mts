@@ -57,7 +57,7 @@ export default withMermaid(
             items: [
               { text: '托管到 CNB', link: '/guide/deploy-cnb' },
               { text: '知识库向量化', link: '/guide/knowledge-base' },
-              { text: 'Edge Function 实现 MCP Server', link: '/guide/mcp-server' },
+              { text: 'EO Pages 实现 MCP', link: '/guide/mcp-server' },
               { text: '部署与验证', link: '/guide/deploy-verify' }
             ]
           },
