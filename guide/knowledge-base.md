@@ -76,6 +76,10 @@ CNB 平台会在流水线和云原生运行时自动注入 `CNB_TOKEN` 环境变
 
 :::
 
+比如，我用 RapidAPI 调用知识库 API，请求参数如下：
+
+![RapidAPI 调用知识库 API](./assets/rapidapi-call-knowledge-base-api.webp)
+
 ### 响应格式
 
 响应为 JSON 数组，每个结果包含以下字段：
@@ -102,12 +106,12 @@ CNB 平台会在流水线和云原生运行时自动注入 `CNB_TOKEN` 环境变
 ```json
 [
   {
-    "score": 0.8671732,
-    "chunk": "该云原生远程开发解决方案基于Docker...",
+    "score": 0.9539660811424255,
+    "chunk": "# 托管到 CNB 平台...",
     "metadata": {
-      "hash": "15f7a1fc4420cbe9d81a946c9fc88814",
-      "name": "quick-start",
-      "path": "vscode/quick-start.md",
+      "hash": "a89429226284ea2c91a1dc162ae42c81",
+      "name": "deploy-cnb",
+      "path": "guide/deploy-cnb.md",
       "position": 0,
       "type": "code",
       "url": "https://cnb.cool/..."
