@@ -23,7 +23,7 @@
 4. ✅ Tool Use 接口（`/api/v1/mcp/*`），供前端 AI 组件使用
 5. ✅ 网页端 AI 助手正常工作
 
-## 第一步：了解项目结构
+## 了解项目结构
 
 Go Cloud Function 的代码位于 `cloud-functions/` 目录下：
 
@@ -50,7 +50,7 @@ cloud-functions/
 EdgeOne Pages 的 Go Cloud Function 要求入口文件（`index.go`）必须在 `cloud-functions/` 根目录下，包名为 `main`，并包含 `main()` 函数。部署时会自动编译并运行。
 :::
 
-## 第二步：配置环境变量
+## 配置环境变量
 
 Go Cloud Function 通过环境变量获取运行时配置。在 EdgeOne Pages 的项目设置中添加以下环境变量：
 
@@ -77,7 +77,7 @@ Go Cloud Function 通过环境变量获取运行时配置。在 EdgeOne Pages �
 ![EdgeOne Pages 环境变量配置界面](./assets/edgeone-pages-env.webp)
 :::
 
-## 第三步：理解核心代码
+## 理解核心代码
 
 ### 入口文件 `index.go`
 
@@ -134,7 +134,7 @@ func main() {
 `/mcp` 端点提供全部 4 个 MCP 工具，供外部 AI 客户端（Cursor、Claude 等）使用；而 `/api/v1/mcp/*` 是内部接口，仅提供 `query_knowledge_base` 工具供网页端 AI 助手使用。
 :::
 
-## 第四步：本地开发与测试
+## 本地开发与测试
 
 ### 启动本地开发服务
 
@@ -178,7 +178,7 @@ curl -X POST http://localhost:9000/api/v1/chat \
   -d '{"Query":"MCP 是什么？"}'
 ```
 
-## 第五步：部署到 EdgeOne Pages
+## 部署到 EdgeOne Pages
 
 部署到 EdgeOne Pages 并激活 Cloud Function，核心依赖 [EdgeOne CLI](https://pages.edgeone.ai/zh/document/edgeone-cli)。你可以在本地手动部署，也可以通过 CNB 流水线自动部署。
 
@@ -214,7 +214,16 @@ edgeone pages deploy -n vector-mcp-edge
 ```
 
 ::: tip
-更多 CLI 用法（本地开发调试、环境变量管理等）请参考 [EdgeOne CLI 文档](https://pages.edgeone.ai/zh/document/edgeone-cli)。
+更多 CLI 用法（本地开发调试、环境变量管理等）请参考 [EdgeOne CLI 文档](https://pages.edgeone.ai/zh/document/edgeone-cli)。比如，使用 token 方式部署：
+
+```bash
+edgeone pages deploy -n vector-mcp-edge -t <你的API Token>
+```
+
+![EdgeOne Pages 项目使用 token 部署](./assets/edgeone-pages-deploy-token.webp)
+
+其实这个方法更适合 CI/CD 场景，后续我们会介绍如何在 CNB 流水线中使用 token 实现自动部署。
+
 :::
 
 ### 方式二：CNB 流水线自动部署（推荐）
@@ -247,6 +256,8 @@ main:
             - edgeone pages deploy -n vector-mcp-edge -t $EO_SECRET
 ```
 
+![CNB 流水线配置 EdgeOne Pages 部署](./assets/cnb-eopages-deploy-pipeline.webp)
+
 ::: info 部署插件说明
 `tencentcom/deploy-eopages` 镜像内置了 EdgeOne CLI，通过 `edgeone pages deploy` 命令完成部署。CLI 会自动执行构建（根据 `edgeone.json` 配置）并上传产物，同时编译 `cloud-functions/` 下的 Go Cloud Function。
 :::
@@ -264,7 +275,7 @@ git push
 2. VitePress 站点构建 + Go Cloud Function 编译
 3. EdgeOne Pages 部署（`edgeone pages deploy`）
 
-## 第六步：配置前端 AI 助手
+## 配置前端 AI 助手
 
 Go Cloud Function 部署后，前端 AI 助手组件可以直接连接。在部署环境中配置以下环境变量：
 
@@ -276,7 +287,7 @@ Go Cloud Function 部署后，前端 AI 助手组件可以直接连接。在部�
 由于 Go Cloud Function 和 VitePress 站点部署在同一个 EdgeOne Pages 项目中，前端可以直接使用相对路径或同域地址访问后端接口，无需额外处理跨域问题。
 :::
 
-## 第七步：配置外部 AI 工具
+## 配置外部 AI 工具
 
 部署完成后，外部 AI 工具可以通过 MCP 端点接入：
 
@@ -314,6 +325,10 @@ Go Cloud Function 部署后，前端 AI 助手组件可以直接连接。在部�
   }
 }
 ```
+
+比如，在 Cherry Studio 中添加 MCP Server：
+
+![Cherry Studio 添加 MCP Server](./assets/cherry-studio-add-mcp.webp)
 
 :::
 

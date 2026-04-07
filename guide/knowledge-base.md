@@ -40,7 +40,11 @@ main:
 
 ## 知识库 API
 
-向量化完成后，CNB 会提供一个知识库查询 API：
+向量化完成后，CNB 仓库前台会出现知识库的按钮：
+
+![CNB 仓库知识库按钮](./assets/cnb-knowledge-base-button.webp)
+
+这意味着，项目的 Markdown 文档已经被向量化了，我们可以通过 API 来查询这些向量化后的内容。参考 [知识库 API 文档](https://api.cnb.cool/#/operations/QueryKnowledgeBase)，API 请求格式如下：
 
 ```
 POST https://api.cnb.cool/<用户名>/<仓库组>/<仓库名>/-/knowledge/base/query
