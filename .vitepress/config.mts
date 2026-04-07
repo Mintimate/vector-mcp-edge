@@ -25,7 +25,6 @@ export default withMermaid(
           {
             text: '这里开始',
             items: [
-              { text: '功能与效果', link: '/features/' },
               { text: '方案选型', link: '/features/solutions' }
             ]
           },
@@ -33,8 +32,16 @@ export default withMermaid(
             text: '架构与方案',
             items: [
               { text: '架构全景图', link: '/features/architecture' },
-              { text: '场景一：Serverless MCP', link: '/features/solution-mcp' },
-              { text: '场景二：Go RAG 网页助手', link: '/features/solution-rag' }
+              { text: 'Go Cloud Function', link: '/features/solution-go-function' },
+              { text: '方案演进与对比', link: '/features/solutions' }
+            ]
+          },
+          {
+            text: '历史方案（已归档）',
+            collapsed: true,
+            items: [
+              { text: 'JS Serverless MCP', link: '/features/solution-mcp' },
+              { text: 'Go RAG 自建服务', link: '/features/solution-rag' }
             ]
           },
           {
@@ -57,8 +64,15 @@ export default withMermaid(
             items: [
               { text: '托管到 CNB', link: '/guide/deploy-cnb' },
               { text: '知识库向量化', link: '/guide/knowledge-base' },
-              { text: 'EO Pages 实现 MCP', link: '/guide/mcp-server' },
+              { text: 'Cloud Function', link: '/guide/cloud-function' },
               { text: '部署与验证', link: '/guide/deploy-verify' }
+            ]
+          },
+          {
+            text: '历史教程（已归档）',
+            collapsed: true,
+            items: [
+              { text: 'JS Edge Function 实现 MCP', link: '/guide/mcp-server' }
             ]
           },
           {

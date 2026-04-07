@@ -1,8 +1,8 @@
 # 在线体验：本站 MCP 端点 <Badge type="tip" text="Live Demo" />
 
-本项目不仅是一份教程，**它本身就是一个可运行的 Demo**。我们已经将本站的文档知识库通过 EdgeOne Pages Cloud Function 暴露为标准 MCP 端点，你可以立即接入体验。
+本项目不仅是一份教程，**它本身就是一个可运行的 Demo**。我们已经将本站的文档知识库通过 EdgeOne Pages Go Cloud Function 暴露为标准 MCP 端点，你可以立即接入体验。
 
-> 💡 这就是 [方案一（Serverless MCP）](./solution-mcp) 的真实落地效果。配置好后，你可以直接在 AI 编辑器中提问关于本教程的问题，AI 会自动查询知识库来回答。
+> 💡 这就是 [Go Cloud Function 方案](./solution-go-function) 的真实落地效果。配置好后，你可以直接在 AI 编辑器中提问关于本教程的问题，AI 会自动查询知识库来回答。
 
 ## 端点信息
 
@@ -138,7 +138,7 @@ curl -X POST https://vector-mcp-edge.mintimate.cn/mcp \
 
 ## 技术实现
 
-本 MCP 端点正是 [方案一](./solution-mcp) 的实际产物。它基于 EdgeOne Pages Cloud Function 部署，通过 CNB 知识库的向量语义检索能力，将本站的 Markdown 文档自动向量化并建立索引。
+本 MCP 端点基于 [方案三（Go Cloud Function）](./solution-go-function) 部署。它使用 EdgeOne Pages 的 Go Cloud Function 能力，将 MCP Server、RAG 问答和 Tool Use 接口一体化运行在边缘函数上，通过 CNB 知识库的向量语义检索能力，将本站的 Markdown 文档自动向量化并建立索引。
 
 ```mermaid
 flowchart TD

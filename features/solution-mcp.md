@@ -1,6 +1,14 @@
-# 场景一：Serverless MCP — 接入外部 AI 工具
+# 场景一：JS Serverless MCP（已归档）
 
-> 这是本教程的**核心场景**。通过 EdgeOne Pages 的 Cloud Function 部署 MCP Server，让 Cursor、Claude、VS Code 等外部 AI 工具直接检索你的文档知识库，**全程无需自建服务器**。
+> ⚠️ **本方案已归档**。EdgeOne Pages 现已支持 Go Cloud Function，本方案的功能已被 [Go Cloud Function 方案](./solution-go-function) 完全替代。保留本页仅供历史参考。
+>
+> 👉 推荐前往 [Go Cloud Function 方案](./solution-go-function) 查看当前方案。
+
+---
+
+> 以下为历史内容，介绍早期 EdgeOne Pages 仅支持 JS 时的实现方式。
+
+通过 EdgeOne Pages 的 JS Cloud Function 部署 MCP Server，让 Cursor、Claude、VS Code 等外部 AI 工具直接检索你的文档知识库，**全程无需自建服务器**。
 
 ## 场景定位
 
@@ -67,8 +75,8 @@ flowchart LR
 https://<你的域名>/mcp
 ```
 
-::: tip 想立即体验？
-本项目自身就提供了一个可用的 MCP 端点，无需自己部署即可验证效果。前往 [本站 MCP 端点（Live Demo）](./mcp-endpoint) 获取配置。
+::: tip 已迁移到 Go Cloud Function
+本站已使用 Go Cloud Function 部署，同时提供 MCP 端点和网页端 AI 助手。前往 [本站 MCP 端点（Live Demo）](./mcp-endpoint) 获取配置。
 :::
 
 ## 场景优势
@@ -83,6 +91,8 @@ https://<你的域名>/mcp
 
 ## 与场景二的区别
 
+> 注：以下对比为历史参考。当前推荐直接使用 [Go Cloud Function 方案](./solution-go-function)，已合并了两种场景的所有能力。
+
 | | 场景一：Serverless MCP | 场景二：Go RAG + 前端 AI 助手 |
 |------|------------------------|-------------------------------|
 | **使用者** | 开发者（Cursor、Claude 等 AI 工具） | 网站访客（浏览器内直接问答） |
@@ -90,10 +100,10 @@ https://<你的域名>/mcp
 | **服务器** | 无（EdgeOne 边缘函数） | 需自建或云服务器 |
 | **上线速度** | ⚡ 快（推荐首选） | 中等（需要联调） |
 
-> 两种场景可以共存，共享同一份 CNB 知识库数据源。详见 [方案对比与选型](./solutions)。
+> 两种场景已合并为 Go Cloud Function 方案。详见 [方案演进与对比](./solutions)。
 
 ## 下一步
 
-- 🚀 [立即体验本站 Demo](./mcp-endpoint) — 零配置验证效果
-- 📖 [前往搭建教程](/guide/) — 从零开始搭建你自己的 MCP Server
-- 🔍 [了解场景二](./solution-rag) — 如果你还需要网页端 AI 问答
+- ⭐ [前往 Go Cloud Function 方案](./solution-go-function) — 当前推荐方案
+- 🚀 [立即体验本站 Demo](./mcp-endpoint) — 已使用 Go Cloud Function 部署
+- 📖 [前往搭建教程](/guide/) — 从零开始搭建

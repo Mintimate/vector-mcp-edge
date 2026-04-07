@@ -1,8 +1,20 @@
-# Edge Function 实现 MCP Server
+# Edge Function 实现 MCP Server（JS 版，已归档）
 
-这是本教程的核心部分。我们将在 EdgeOne Pages 的 Cloud Function 中实现一个完整的 MCP Server。
+> ⚠️ **本页介绍的是早期基于 JS 的实现方式，已被 Go Cloud Function 替代**。保留本页仅供历史参考。
+>
+> 👉 推荐前往 [Go Cloud Function 搭建教程](./cloud-function) 查看当前方案。
+
+---
+
+> 以下为历史内容。早期 EdgeOne Pages 仅支持 JS Cloud Function，因此使用 JS 实现 MCP Server。现在 EdgeOne Pages 已支持 Go Cloud Function，推荐使用 Go 实现。
+
+我们将在 EdgeOne Pages 的 Cloud Function 中实现一个完整的 MCP Server。
 
 其实，MCP Server 的实现并不复杂，只需要按照 MCP 协议的规范来实现即可。但是，为了让实现更符合实际场景，我们还需要考虑一些额外的细节。
+
+::: tip ✅ 当前推荐：Go Cloud Function
+EdgeOne Pages 已支持 Go Cloud Function，本项目已迁移到 Go 实现。Go 版本同时提供 MCP 端点、RAG 问答和 Tool Use 接口，是 JS 版本的完全替代。前往 [Go Cloud Function 搭建教程](./cloud-function) 查看当前方案。
+:::
 
 ## MCP 协议简介
 
@@ -43,7 +55,7 @@ graph LR
 
 ## 创建 Edge Function
 
-EdgeOne Pages 支持 [Cloud Function](https://pages.edgeone.ai/zh/document/pages-functions-overview)，目前支持 Node Function 相关函数，我们可以基于这个，包装上游(CNB的)向量数据库的 API 接口，实现一个 MCP Server。
+EdgeOne Pages 支持 [Cloud Function](https://pages.edgeone.ai/zh/document/pages-functions-overview)，支持 Node Function 和 Go Function。本节使用 Node Function 实现 MCP Server，如需使用 Go 实现请参考 [Go Cloud Function 搭建教程](./cloud-function)。我们可以基于 Cloud Function 包装上游(CNB的)向量数据库的 API 接口，实现一个 MCP Server。
 
 EdgeOne Pages 会在部署的时候，自动扫描`cloud-function`下的文件，完成 Cloud function 的构建，所以我们创建一个`cloud-functions/mcp`的文件夹，在里面创建一个`index.js`的文件，用于实现 MCP Server。
 

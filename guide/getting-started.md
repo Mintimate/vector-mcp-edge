@@ -1,6 +1,6 @@
 # 快速开始
 
-本教程的前提是：**你已经有一个 VitePress（或其他 Markdown）文档项目**。接下来，我们要做的是把它托管到 CNB，激活知识库向量化，然后通过 EdgeOne Cloud Function 暴露 MCP 端点——让 AI 工具能直接检索你的文档。
+本教程的前提是：**你已经有一个 VitePress（或其他 Markdown）文档项目**。接下来，我们要做的是把它托管到 CNB，激活知识库向量化，然后通过 EdgeOne Go Cloud Function 部署 MCP 端点和网页端 AI 助手——让 AI 工具能直接检索你的文档，同时网站访客也能直接问答。
 
 > 💡 如果你还没有 VitePress 项目，可以参考 [VitePress 官方文档](https://vitepress.dev/zh/guide/getting-started) 快速创建一个。
 
@@ -8,7 +8,7 @@
 
 - **文档维护者**：希望给已有的 VitePress 文档站增加 AI 语义检索能力
 - **开发者工具用户**：希望在 Cursor / Claude Desktop / VS Code 中直接检索文档
-- **站点建设者**：希望在网页端集成 AI 聊天助手（进阶，见 [场景二](../features/solution-rag)）
+- **站点建设者**：希望在网页端集成 AI 聊天助手（Go Cloud Function 已内置支持）
 
 ## 前置条件
 
@@ -25,8 +25,9 @@
 跟着主线教程走完，你会得到：
 
 1. ✅ 文档项目托管在 CNB，Git 推送自动触发知识库向量化
-2. ✅ 一个可用的 MCP Server 端点，部署在 EdgeOne Pages Cloud Function 上
+2. ✅ 一个可用的 MCP Server 端点，部署在 EdgeOne Pages Go Cloud Function 上
 3. ✅ AI 工具（Cursor、Claude 等）可以直接检索你的文档内容
+4. ✅ 网页端 AI 助手正常工作（Go Cloud Function 内置 RAG + Tool Use）
 
 整个过程大约 **20 分钟**：
 
@@ -34,17 +35,19 @@
 - **第 15 分钟**：CNB 知识库向量化跑通，文档已建立索引
 - **第 20 分钟**：MCP Server 部署完成，`curl` 可测试调用并返回结果
 
-## 扩展部分：网页端 AI 助手（进阶）
+## 扩展部分：网页端 AI 助手
 
-如果你希望在文档网站内直接嵌入一个 AI 问答助手（如本站右上角的聊天按钮），让访客无需安装任何工具即可体验，可以参考 **[场景二：Go RAG 网页助手](../features/solution-rag.md)**。
+Go Cloud Function 已内置 RAG 问答和 Tool Use 接口，前端 AI 助手组件可以直接连接。如果你希望在文档网站内直接嵌入一个 AI 问答助手（如本站右上角的聊天按钮），只需配置前端环境变量即可启用。
 
-实现该进阶功能的前置条件：
+详见 [Go Cloud Function 搭建教程](./cloud-function) 的第六步。
 
-- **服务器环境**：需要一台服务器来部署 Go 后端服务（推荐使用 Docker，可直接拉取 CNB 的 Docker 托管镜像）。
-- **LLM API**：需要一个支持 Tool Calling 的大模型 API（如 DeepSeek、腾讯混元等），你也可以直接使用 CNB 提供的 LLM API。配合 CNB 的知识库向量检索，实现 RAG 网页助手。
-- **前端组件**：本项目已内置了完整的 Vue 聊天组件，只需配置后端接口地址即可启用。
+::: details 📜 历史方案：自建 Go 后端
+早期 EdgeOne Pages 仅支持 JS Cloud Function，网页端 AI 助手需要自建 Go 服务器。现在 Go Cloud Function 已完全替代该方案，无需自建服务器。
 
-> 💡 **建议**：先完成主线教程（场景一：Serverless MCP），跑通知识库向量化流程后，再按需探索进阶的 RAG 方案。
+如果你有特殊需求（如私有化部署），仍可参考 [场景二：Go RAG 网页助手](../features/solution-rag.md)（已归档）。
+:::
+
+> 💡 **建议**：完成主线教程跑通知识库向量化流程后，继续完成 [Go Cloud Function 搭建教程](./cloud-function)，一步到位获得 MCP + 网页端 AI 助手能力。
 
 ## 主线教程
 
