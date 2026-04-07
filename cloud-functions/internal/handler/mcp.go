@@ -18,6 +18,7 @@ package handler
 
 import (
 	"bytes"
+	_ "embed"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -39,107 +40,16 @@ const (
 	mcpProtocolVersion = "2025-03-26"
 )
 
-// ── static text content (matches the JS reference implementation) ─────────────
+// ── embed static text content ─────────────────────────────────────────────────
 
-const mcpProjectInfoText = `# VitePress MCP 智能检索
+//go:embed static/project_info.md
+var mcpProjectInfoText string
 
-为 VitePress 文档站点添加 MCP 智能语义搜索能力，基于 CNB 知识库 + EdgeOne Edge Function 实现。
+//go:embed static/quickstart.md
+var mcpQuickstartText string
 
-## 技术栈
-
-- **VitePress**: 静态文档站点生成框架
-- **CNB 知识库**: 文档向量化存储与语义检索 API
-- **EdgeOne Edge Function**: 腾讯云边缘函数，零服务器成本运行 MCP Server
-- **MCP 协议**: Model Context Protocol，标准化 AI 工具接口
-
-## 核心功能
-
-- **一条主线学完**: 从 VitePress 初始化、CNB 托管、知识库向量化到 MCP Server 部署验证，按主线教程一步步完成。
-- **两套方案清晰分层**: 方案一用于外部 AI 工具接入（MCP）；方案二用于网页端 Go RAG 问答。先主线，后选型。
-- **CNB 知识库**: 一行配置实现文档向量化，无需自建向量数据库。push 即触发，自动分块、Embedding、索引构建。
-- **EdgeOne Edge Function**: 在边缘函数中实现 MCP Server，零服务器成本、全球加速、自动部署，真正的零运维体验。
-- **MCP 协议支持**: 标准化 Model Context Protocol 接口，无缝对接各类主流 AI 助手与大模型平台。
-
-## 项目链接
-
-- 代码仓库: https://cnb.cool/shenzhen/lecturer/vector-mcp-edge
-- 在线文档: https://vector-mcp-edge.mintimate.cn`
-
-const mcpQuickstartText = `# 快速开始
-
-从零开始搭建 VitePress MCP 智能检索系统
-
-## 步骤 1：初始化 VitePress 项目
-
-使用 VitePress 初始化一个新的文档站点项目，配置基本的站点信息和导航结构。
-
-详细文档: https://vector-mcp-edge.mintimate.cn/guide/getting-started.html
-
----
-
-## 步骤 2：托管到 CNB
-
-将项目托管到 CNB 平台，利用其 CI/CD 能力自动构建和部署 VitePress 站点。
-
-详细文档: https://vector-mcp-edge.mintimate.cn/guide/deploy-cnb.html
-
----
-
-## 步骤 3：知识库向量化
-
-在 CNB 平台配置知识库，启用文档自动分块和 Embedding 向量化，实现语义检索能力。
-
-详细文档: https://vector-mcp-edge.mintimate.cn/guide/knowledge-base.html
-
----
-
-## 步骤 4：实现 MCP Server
-
-在 EdgeOne Pages 的 Cloud Function 中实现完整的 MCP Server，对外暴露标准 MCP 工具协议。
-
-详细文档: https://vector-mcp-edge.mintimate.cn/guide/mcp-server.html
-
----
-
-## 步骤 5：部署与验证
-
-部署到 EdgeOne Pages 并验证 MCP 功能，配置 Cursor / Claude 等 AI 客户端接入。
-
-详细文档: https://vector-mcp-edge.mintimate.cn/guide/deploy-verify.html`
-
-const mcpSolutionsText = `# VitePress MCP 智能检索 — 方案对比
-
-## 方案一：接入外部 AI 工具（重点）
-
-通过 EdgeOne Pages 部署的 MCP Server，让外部 AI 工具可以直接检索你的文档知识库。
-
-**支持的工具**: Cursor / Claude Desktop / VS Code (Cline) / Cherry Studio
-
-**优势**:
-- 零服务器成本
-- 标准 MCP 协议
-- CNB_TOKEN 自动鉴权
-- 全球 CDN 加速
-
-详细文档: https://vector-mcp-edge.mintimate.cn/features/solution-mcp.html
-
----
-
-## 方案二：Go RAG 网页问答（进阶）
-
-在网页端提供内嵌的 AI 问答体验，使用 Go 服务编排 LLM + Tool Calling。
-
-**优势**:
-- 网页内嵌 AI 助手
-- 支持流式输出
-- 完整 RAG 编排
-- 自定义对话体验
-
-详细文档: https://vector-mcp-edge.mintimate.cn/features/solution-rag.html
-
----
-
-**推荐**：先完成方案一（MCP），快速为外部 AI 工具提供文档检索能力；再按需扩展方案二（Go RAG）实现网页端 AI 问答。`
+//go:embed static/solutions.md
+var mcpSolutionsText string
 
 // ── MCP tool definitions (tools/list response) ────────────────────────────────
 
@@ -180,7 +90,7 @@ var mcpTools = []map[string]interface{}{
 	},
 	{
 		"name":        "get_solutions",
-		"description": "Compare the two available solutions: MCP for external AI tools vs Go RAG for the web.",
+		"description": "Compare the available solutions: Go Cloud Function (recommended) vs legacy JS MCP and Go RAG.",
 		"inputSchema": map[string]interface{}{"type": "object", "properties": map[string]interface{}{}},
 	},
 }
