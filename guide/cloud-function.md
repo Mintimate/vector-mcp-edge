@@ -37,7 +37,11 @@ cloud-functions/
     ├── handler/
     │   ├── mcp.go                  # 标准 MCP Streamable HTTP
     │   ├── rag.go                  # RAG 问答（流式 / 非流式）
-    │   └── tooluse.go              # Tool Use 接口
+    │   ├── tooluse.go              # Tool Use 接口
+    │   └── static/
+    │       ├── project_info.md     # 项目信息
+    │       ├── quickstart.md       # 快速开始指南
+    │       └── solutions.md        # 方案对比
     └── knowledge/
         └── knowledge.go            # CNB 知识库查询
 ```
@@ -54,7 +58,7 @@ Go Cloud Function 通过环境变量获取运行时配置。在 EdgeOne Pages �
 |--------|------|------|------|
 | `KNOWLEDGE_API_URL` | 是 | CNB 知识库查询 API | `https://api.cnb.cool/<用户名>/<仓库组>/<仓库名>/-/knowledge/base/query` |
 | `CNB_TOKEN` | 自动 | CNB 访问令牌 | EdgeOne Pages 自动注入 |
-| `AI_BASE_URL` | 是 | LLM API 地址 | `https://api.cnb.cool/<组织>/<项目>/-/ai` |
+| `AI_BASE_URL` | 是 | OpenAI 规范的 LLM API | CNB 有提供免费的 AI 接口，参考: [AI 对话](https://api.cnb.cool/#/operations/AiChatCompletions) ，示例值: `https://api.cnb.cool/<组织>/<项目>/-/ai` |
 | `AI_API_KEY` | 是 | LLM API 密钥 | 你的 API Key |
 | `AI_MODEL` | 是 | 模型名称 | `hunyuan-t1-20250711` |
 | `RAG_SYSTEM_PROMPT` | 否 | 自定义系统提示词 | 见下方示例 |
@@ -69,6 +73,8 @@ Go Cloud Function 通过环境变量获取运行时配置。在 EdgeOne Pages �
 
 ::: warning 密钥安全
 `AI_API_KEY` 等敏感信息应通过 EdgeOne Pages 的环境变量配置界面设置，**不要**硬编码在代码中或提交到 Git 仓库。
+
+![EdgeOne Pages 环境变量配置界面](./assets/edgeone-pages-env.webp)
 :::
 
 ## 第三步：理解核心代码
@@ -120,9 +126,13 @@ func main() {
 
 为前端 AI 组件提供 Function Calling 流程：
 
-- **GET /api/v1/mcp/tools** — 返回工具列表
+- **GET /api/v1/mcp/tools** — 返回工具列表（仅 `query_knowledge_base`）
 - **POST /api/v1/mcp/tools/call** — 执行单个工具
 - **POST /api/v1/mcp/llm/chat** — LLM 聊天，支持流式和非流式，自动处理 Tool Calling
+
+::: tip MCP 与 Tool Use 的区别
+`/mcp` 端点提供全部 4 个 MCP 工具，供外部 AI 客户端（Cursor、Claude 等）使用；而 `/api/v1/mcp/*` 是内部接口，仅提供 `query_knowledge_base` 工具供网页端 AI 助手使用。
+:::
 
 ## 第四步：本地开发与测试
 
@@ -170,6 +180,8 @@ curl -X POST http://localhost:9000/api/v1/chat \
 
 ## 第五步：部署到 EdgeOne Pages
 
+部署到 EdgeOne Pages 并激活 Cloud Function，核心依赖 [EdgeOne CLI](https://pages.edgeone.ai/zh/document/edgeone-cli)。你可以在本地手动部署，也可以通过 CNB 流水线自动部署。
+
 ### 确认 `edgeone.json` 配置
 
 确保项目根目录的 `edgeone.json` 配置正确：
@@ -184,13 +196,62 @@ curl -X POST http://localhost:9000/api/v1/chat \
 }
 ```
 
-EdgeOne Pages 会自动检测 `cloud-functions/` 目录下的 Go 代码并编译部署。
+执行 `edgeone pages deploy` 时，CLI 会根据此配置自动构建项目，并检测 `cloud-functions/` 目录下的 Go 代码一并编译部署。
 
-### 配置 CNB 流水线
+### 方式一：本地手动部署
 
-确保 `.cnb.yml` 中包含 EdgeOne Pages 部署步骤，部署时会自动处理 Go Cloud Function 的编译。
+安装 EdgeOne CLI 并登录后，直接在项目根目录执行部署命令：
 
-### 推送部署
+```bash
+# 安装 EdgeOne CLI
+npm install -g edgeone
+
+# 登录（在弹出的浏览器窗口完成认证）
+edgeone login
+
+# 部署到生产环境
+edgeone pages deploy -n vector-mcp-edge
+```
+
+::: tip
+更多 CLI 用法（本地开发调试、环境变量管理等）请参考 [EdgeOne CLI 文档](https://pages.edgeone.ai/zh/document/edgeone-cli)。
+:::
+
+### 方式二：CNB 流水线自动部署（推荐）
+
+利用 CNB 的 [EdgeOne Pages 部署插件](https://cnb.cool/cnb/plugins/tencentcom/deploy-eopages)，可以在 `.cnb.yml` 中配置流水线，实现 `git push` 后自动部署。
+
+**前置准备**：
+1. 在 EdgeOne Pages 控制台获取 [API Token](https://pages.edgeone.ai/zh/document/api-token)
+2. 将 API Token 存入 CNB 密钥仓库（如变量名 `EO_SECRET`）
+
+**`.cnb.yml` 部署配置示例**：
+
+```yaml
+main:
+  push:
+    - name: "向量化数据"
+      stages:
+        - name: build knowledge base
+          image: cnbcool/knowledge-base
+          settings:
+            include: "**/**.md"
+    - name: "构建产物"
+      docker:
+        image: node:22
+      stages:
+        - name: "部署流程"
+          image: tencentcom/deploy-eopages:latest
+          script:
+            - apk add --no-cache git
+            - edgeone pages deploy -n vector-mcp-edge -t $EO_SECRET
+```
+
+::: info 部署插件说明
+`tencentcom/deploy-eopages` 镜像内置了 EdgeOne CLI，通过 `edgeone pages deploy` 命令完成部署。CLI 会自动执行构建（根据 `edgeone.json` 配置）并上传产物，同时编译 `cloud-functions/` 下的 Go Cloud Function。
+:::
+
+### 推送触发部署
 
 ```bash
 git add .
@@ -199,9 +260,9 @@ git push
 ```
 
 推送后 CNB 流水线会自动触发：
-1. 知识库向量化
-2. VitePress 站点构建
-3. EdgeOne Pages 部署（包含 Go Cloud Function 编译）
+1. 知识库向量化（`cnbcool/knowledge-base`）
+2. VitePress 站点构建 + Go Cloud Function 编译
+3. EdgeOne Pages 部署（`edgeone pages deploy`）
 
 ## 第六步：配置前端 AI 助手
 
