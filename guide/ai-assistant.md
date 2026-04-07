@@ -1,70 +1,33 @@
 # 配置网页端 AI 助手
 
-本项目已内置网页端 AI 助手聊天组件，只需部署 [Knowledge Maker](https://github.com/Mintimate/knowledge-maker) Go 后端并配置环境变量即可启用。
+本项目已内置网页端 AI 助手聊天组件。Go Cloud Function 部署后已自动提供 RAG 问答和 Tool Use 接口，只需配置前端环境变量即可启用。
+
+::: tip 无需自建服务器
+早期 EdgeOne Pages 仅支持 JS Cloud Function，网页端 AI 助手需要[自建 Go 后端服务器](/features/solution-rag)。现在 Go Cloud Function 已内置 RAG + Tool Use 接口，**无需额外部署任何后端服务**。
+:::
 
 ## 前置条件
 
-- 已完成主线教程（知识库向量化 + MCP Server 部署）
-- 已部署 Knowledge Maker Go 后端
-- Go 后端已配置 LLM（如 DeepSeek）和 CNB 知识库
+- 已完成主线教程（知识库向量化 + Go Cloud Function 部署）
+- Go Cloud Function 已正常运行（可通过 `curl https://<你的域名>/api/v1/health` 验证）
 
-## 第一步：部署 Go 后端
+## 第一步：确认后端接口可用
 
-推荐使用 Docker Compose 部署 [Knowledge Maker](https://github.com/Mintimate/knowledge-maker)，一行命令即可启动。
+Go Cloud Function 部署后，以下接口已自动可用：
 
-### Docker Compose 部署
+| 端点 | 方法 | 说明 |
+|------|------|------|
+| `/api/v1/mcp/tools` | GET | 获取工具列表 |
+| `/api/v1/mcp/tools/call` | POST | 调用指定工具 |
+| `/api/v1/mcp/llm/chat` | POST (SSE) | LLM 流式对话，支持 Tool Calling |
 
-创建 `docker-compose.yml`：
-
-```yaml
-services:
-  knowledge-maker:
-    image: docker.cnb.cool/mintimate/tool-forge/knowledge-maker
-    container_name: knowledge-maker
-    volumes:
-      - ./logs:/app/logs
-    ports:
-      - "8100:8082"
-    environment:
-      - PORT=8082
-      - GIN_MODE=debug
-      - AI_BASE_URL=<你的 LLM API 地址>
-      - AI_API_KEY=${AI_API_KEY}
-      - AI_MODEL=<模型名称>
-      - KNOWLEDGE_BASE_URL=https://api.cnb.cool/<用户名>/<仓库组>/<仓库名>/-/knowledge/base/query
-      - KNOWLEDGE_TOKEN=${KNOWLEDGE_TOKEN}
-      - KNOWLEDGE_TOP_K=3
-      - RAG_SYSTEM_PROMPT=|
-        你是 AI 助手，专门基于知识库内容回答问题。
-        请严格遵循以下规则：
-        1. 基于提供的知识库内容进行回答，确保信息准确
-        2. 使用用户使用的语言（如中文、英文）进行回答
-        3. 拒绝与知识库无关的问题
-    restart: unless-stopped
-```
-
-创建 `.env` 文件存放密钥（不要提交到 Git）：
+验证接口：
 
 ```bash
-AI_API_KEY=your_api_key_here
-KNOWLEDGE_TOKEN=your_cnb_token_here
+curl https://<你的域名>/api/v1/mcp/tools
 ```
 
-启动服务：
-
-```bash
-docker compose up -d
-```
-
-::: warning 密钥安全
-`AI_API_KEY` 和 `KNOWLEDGE_TOKEN` 必须通过 `.env` 文件传入，**不要**直接写在 `docker-compose.yml` 中。确保 `.env` 已在 `.gitignore` 中。
-:::
-
-启动后确认以下接口可用：
-
-```bash
-curl http://localhost:8100/api/v1/mcp/tools
-```
+如果返回工具列表 JSON，说明后端已就绪。
 
 ## 第二步：配置环境变量
 
@@ -73,20 +36,24 @@ curl http://localhost:8100/api/v1/mcp/tools
 在终端设置环境变量后启动开发服务器：
 
 ```bash
-export AI_MCP_BASE_URL=http://localhost:8100/api/v1/mcp
+export AI_MCP_BASE_URL=http://localhost:9000/api/v1/mcp
 yarn dev
 ```
 
 ### 生产环境
 
-在 CNB 流水线或部署平台中添加环境变量：
+在 EdgeOne Pages 项目设置或 CNB 流水线中添加环境变量：
 
 | 变量名 | 必填 | 说明 |
 |--------|------|------|
-| `AI_MCP_BASE_URL` | 是 | Go 后端地址，**必须包含 `/api/v1/mcp`** |
+| `AI_MCP_BASE_URL` | 是 | Go Cloud Function 的 Tool Use 接口地址 |
 | `AI_MAX_HISTORY_TURNS` | 否 | 最大对话历史轮数，默认 `3` |
 | `AI_WELCOME_MESSAGE` | 否 | 自定义欢迎消息 |
 | `AI_DEFAULT_TOOLS` | 否 | 降级工具定义 JSON |
+
+::: tip 同域部署
+由于 Go Cloud Function 和 VitePress 站点部署在同一个 EdgeOne Pages 项目中，`AI_MCP_BASE_URL` 可以直接使用同域地址（如 `https://<你的域名>/api/v1/mcp`），无需额外处理跨域问题。
+:::
 
 ::: warning 注意
 `AI_MCP_BASE_URL` 的值必须以 `/api/v1/mcp` 结尾。前端会在此基础上拼接 `/tools`、`/tools/call`、`/llm/chat`，最终请求路径为：
@@ -133,7 +100,7 @@ yarn dev
 
 ### 发送消息无响应
 
-1. 检查 Go 后端是否运行
+1. 检查 Go Cloud Function 是否正常运行（`curl /api/v1/health`）
 2. 用 `curl` 测试 `GET /api/v1/mcp/tools` 是否返回工具列表
 3. 检查浏览器控制台的网络请求是否 404（通常是路径拼接错误）
 4. 确认 `AI_MCP_BASE_URL` 以 `/api/v1/mcp` 结尾
@@ -142,7 +109,14 @@ yarn dev
 
 本项目通过 `vite.config.mjs` 的 `define` 机制注入 `AI_` 前缀变量，无需 `VITE_` 前缀。如果修改了环境变量，需要**重启开发服务器**才能生效。
 
+::: details 📜 历史方案：自建 Go 后端
+早期 EdgeOne Pages 仅支持 JS Cloud Function，网页端 AI 助手需要自建 Go 后端服务器（[Knowledge Maker](https://github.com/Mintimate/knowledge-maker)）。现在 Go Cloud Function 已完全替代该方案，无需自建服务器。
+
+如果你有特殊需求（如私有化部署、特定网络环境），仍可参考 [场景二：Go RAG 网页助手](/features/solution-rag)（已归档）。
+:::
+
 ## 下一步
 
-- [方案二详情](../features/solution-rag)：了解完整的 AI 助手架构设计
-- [本站 MCP 端点](../features/mcp-endpoint)：了解方案一的 MCP 端点
+- [Go Cloud Function 搭建教程](./cloud-function) — 如果你还未完成 Go Cloud Function 部署
+- [扩展更多 MCP 工具](./extend-tools) — 为 AI 助手添加更多工具能力
+- [本站 MCP 端点](/features/mcp-endpoint) — 了解本站的 MCP 端点配置

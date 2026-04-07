@@ -6,7 +6,7 @@
 1. [快速开始](./getting-started.md)
 2. [托管到 CNB](./deploy-cnb.md)
 3. [知识库向量化](./knowledge-base.md)
-4. [Edge Function 实现 MCP Server](./mcp-server.md)
+4. [Go Cloud Function 搭建](./cloud-function.md) — ✅ 当前推荐方案
 5. [部署与验证](./deploy-verify.md)
 
 ## 章节地图
@@ -16,8 +16,12 @@
 - [快速开始](./getting-started.md)
 - [托管到 CNB](./deploy-cnb.md)
 - [知识库向量化](./knowledge-base.md)
-- [Edge Function 实现 MCP Server](./mcp-server.md)
+- [Go Cloud Function 搭建](./cloud-function.md) — ✅ 当前推荐方案
 - [部署与验证](./deploy-verify.md)
+
+### 历史教程（已归档）
+
+- [JS Edge Function 实现 MCP Server](./mcp-server.md) — 早期 JS 方案，已被 Go Cloud Function 替代
 
 ### 实战与维护
 

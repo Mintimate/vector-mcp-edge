@@ -295,4 +295,4 @@ Go Cloud Function 的 `/mcp` 路由已完全替代 JS 版本的 MCP Server。迁
 - [配置网页端 AI 助手](./ai-assistant) — 详细的前端组件配置
 - [扩展更多 MCP 工具](./extend-tools) — 为 Go Function 添加更多工具
 - [最佳实践](./best-practices) — 生产环境优化建议
-- [方案三详情](/features/solution-go-function) — 了解完整的架构设计
+- [Go Cloud Function 方案详情](/features/solution-go-function) — 了解完整的架构设计
