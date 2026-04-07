@@ -15,6 +15,26 @@ export default withMermaid(
     ],
     themeConfig: {
       logo: '/logo.svg',
+      outline: {
+        label: '本页导航',
+        level: [2, 6]
+      },
+      docFooter: {
+        prev: '上一页',
+        next: '下一页'
+      },
+      lastUpdated: {
+        text: '最后更新于'
+      },
+      returnToTopLabel: '回到顶部',
+      sidebarMenuLabel: '菜单',
+      darkModeSwitchLabel: '主题',
+      lightModeSwitchTitle: '切换到浅色模式',
+      darkModeSwitchTitle: '切换到深色模式',
+      notFound: {
+        title: '这里什么都没有',
+        quote: '你想找的页面可能已被移除或不存在'
+      },
       nav: [
         { text: '首页', link: '/' },
         { text: '上手体验', link: '/features/' },
