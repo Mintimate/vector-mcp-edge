@@ -137,3 +137,14 @@
 .dark .vp-doc .mermaid marker path {
   fill: #4a5568 !important;
 }
+
+/* ===== 隐藏 VitePress 默认的主题切换按钮（已用三段式组件覆写） ===== */
+.VPNavBarAppearance,
+.VPNavScreenAppearance .text {
+  display: none !important;
+}
+
+/* 移动端侧边栏中也隐藏默认切换 */
+.VPNavScreenAppearance {
+  display: none !important;
+}
