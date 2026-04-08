@@ -6,7 +6,7 @@ hero:
   text: "为文档站点赋予 AI 语义搜索能力"
   tagline: 基于 CNB 平台知识库 + 腾讯云 EdgeOne Edge Function
   image:
-    src: /logo.svg
+    src: /favicon.svg
     alt: VitePress MCP 智能检索
   actions:
     - theme: brand

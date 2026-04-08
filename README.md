@@ -89,7 +89,7 @@ vector-mcp-edge/
 │   └── solution-rag.md     # 方案二：自建 Go 服务 RAG
 ├── public/                 # 静态资源
 │   ├── favicon.ico         # 站点图标
-│   └── logo.svg            # 项目 Logo
+│   └── favicon.svg         # 项目 Logo / Favicon
 ├── edgeone.json            # EdgeOne Pages 部署配置
 ├── index.md                # 站点首页
 ├── package.json            # 项目依赖配置

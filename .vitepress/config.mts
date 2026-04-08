@@ -11,10 +11,11 @@ export default withMermaid(
       hostname: 'https://vector-mcp-edge.mintimate.cn'
     },
     head: [
-      ['link', { rel: 'icon', href: '/favicon.ico' }]
+      ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+      ['link', { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     ],
     themeConfig: {
-      logo: '/logo.svg',
+      logo: '/favicon.svg',
       outline: {
         label: '本页导航',
         level: [2, 6]
