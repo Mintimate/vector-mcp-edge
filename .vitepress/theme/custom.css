@@ -100,3 +100,40 @@
 .VPHero .image-container {
   animation: floatAnimation 4s ease-in-out infinite;
 }
+
+/* ===== Mermaid 图表美化 ===== */
+.vp-doc .mermaid {
+  background-color: #ffffff !important;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 暗色模式下给 mermaid 加浅色底色，保证文字清晰 */
+.dark .vp-doc .mermaid {
+  background-color: #f0f2f5 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #d0d5dd;
+}
+
+/* 暗色模式下确保 mermaid 内所有文字清晰可读 */
+.dark .vp-doc .mermaid text,
+.dark .vp-doc .mermaid .nodeLabel,
+.dark .vp-doc .mermaid .edgeLabel,
+.dark .vp-doc .mermaid .label,
+.dark .vp-doc .mermaid span {
+  color: #1a1a1a !important;
+  fill: #1a1a1a !important;
+}
+
+/* 暗色模式下 mermaid 连线和箭头保持深色 */
+.dark .vp-doc .mermaid .flowchart-link,
+.dark .vp-doc .mermaid .edge-pattern-dotted,
+.dark .vp-doc .mermaid path.path {
+  stroke: #4a5568 !important;
+}
+
+.dark .vp-doc .mermaid marker path {
+  fill: #4a5568 !important;
+}
