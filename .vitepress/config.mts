@@ -46,16 +46,15 @@ export default withMermaid(
           {
             text: '这里开始',
             items: [
-              { text: '方案选型', link: '/features/solutions' }
+              { text: '方案演进与对比', link: '/features/solutions' }
             ]
           },
           {
             text: '架构与方案',
             items: [
               { text: '架构全景图', link: '/features/architecture' },
-              { text: 'Go Cloud Function', link: '/features/solution-go-function' },
-              { text: '方案演进与对比', link: '/features/solutions' }
-            ]
+              { text: 'Go Cloud Function', link: '/features/solution-go-function' }
+              ]
           },
           {
             text: '历史方案（已归档）',
