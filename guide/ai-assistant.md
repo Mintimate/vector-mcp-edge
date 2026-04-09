@@ -115,7 +115,7 @@ yarn dev
 如果你有特殊需求（如私有化部署、特定网络环境），仍可参考 [场景二：Go RAG 网页助手](/features/solution-rag)（已归档）。
 :::
 
-## 下一步
+## 相关文档
 
 - [Go Cloud Function 搭建教程](./cloud-function) — 如果你还未完成 Go Cloud Function 部署
 - [扩展更多 MCP 工具](./extend-tools) — 为 AI 助手添加更多工具能力

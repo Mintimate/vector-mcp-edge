@@ -125,6 +125,3 @@ CNB 平台会在流水线和云原生运行时自动注入 `CNB_TOKEN` 环境变
 ```
 
 
-## 下一步
-
-- [编写 MCP Server](./mcp-server.md)

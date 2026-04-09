@@ -64,6 +64,3 @@ Go Cloud Function 已内置 RAG 问答和 Tool Use 接口，前端 AI 助手组�
 - **我还没有 CNB 账号** — 访问 [cnb.cool](https://cnb.cool) 注册，支持微信/GitHub 登录
 - **我想先看看效果再动手** — 前往 [本站 MCP 端点（Live Demo）](../features/mcp-endpoint) 直接体验
 
-## 下一步
-
-准备好了？开始第一步 👉 [托管到 CNB 平台](./deploy-cnb.md)

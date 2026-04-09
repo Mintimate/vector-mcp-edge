@@ -88,6 +88,3 @@ CNB（Cloud Native Build）是腾讯云推出的云原生构建平台，不仅�
 4. 全球 CDN 加速，支持自定义域名和 HTTPS
 :::
 
-## 下一步
-
-- [配置知识库向量化](./knowledge-base.md)

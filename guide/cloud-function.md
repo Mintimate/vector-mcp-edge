@@ -366,7 +366,7 @@ Go Cloud Function 的 `/mcp` 路由已完全替代 JS 版本的 MCP Server。迁
 - 检查 CORS 配置是否允许前端域名访问
 - 使用 `curl` 测试 `/api/v1/mcp/tools` 是否正常返回
 
-## 下一步
+## 相关文档
 
 - [配置网页端 AI 助手](./ai-assistant) — 详细的前端组件配置
 - [扩展更多 MCP 工具](./extend-tools) — 为 Go Function 添加更多工具

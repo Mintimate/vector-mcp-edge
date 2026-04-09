@@ -176,6 +176,3 @@ my-docs/
     └── config.mts                  # VitePress 配置
 ```
 
-## 下一步
-
-- [部署与验证](./deploy-verify.md)
