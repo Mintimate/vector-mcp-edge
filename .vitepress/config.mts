@@ -6,7 +6,7 @@ export default withMermaid(
     lang: 'zh-CN',
     title: "VitePress MCP 智能检索",
     description: "基于 CNB 知识库 + EdgeOne Edge Function，为 VitePress 文档站点赋予 AI 语义搜索能力",
-    srcExclude: ['**/README.md','DocVitePressOMR'],
+    srcExclude: ['**/README.md', 'DocVitePressOMR', 'slides/**'],
     sitemap: {
       hostname: 'https://vector-mcp-edge.mintimate.cn'
     },
@@ -67,7 +67,8 @@ export default withMermaid(
           {
             text: '在线体验',
             items: [
-              { text: '本站 MCP 端点', link: '/features/mcp-endpoint' }
+              { text: '本站 MCP 端点', link: '/features/mcp-endpoint' },
+              { text: '演示文稿', link: '/features/slides' }
             ]
           }
         ],

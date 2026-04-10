@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "vitepress dev",
-    "build": "vitepress build",
+    "build": "npm run build:slides && vitepress build",
+    "build:docs": "vitepress build",
+    "build:slides": "cd slides && npm run build -- --base /slides/ --out ../public/slides",
     "preview": "vitepress preview"
   },
   "repository": {

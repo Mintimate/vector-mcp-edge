@@ -47,5 +47,8 @@ cloud-functions/testcache/
 # Go 工具链本地缓存
 cloud-functions/vendor/
 
+# Slidev 构建产物（由 build:slides 动态生成到 public）
+public/slides/
+
 # EdgeOne Pages 项目文件
 .edgeone/
