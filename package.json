@@ -4,6 +4,7 @@
   "description": "给 VitePress 添加 MCP 智能检索功能 - 基于 CNB 知识库 + EdgeOne Edge Function",
   "main": "index.js",
   "scripts": {
+    "postinstall": "cd slides && npm install",
     "dev": "vitepress dev",
     "build": "npm run build:slides && vitepress build",
     "build:docs": "vitepress build",
