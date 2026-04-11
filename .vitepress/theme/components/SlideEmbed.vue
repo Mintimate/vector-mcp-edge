@@ -28,8 +28,26 @@ const paddingTop = computed(() => {
   return `${(h / w) * 100}%`
 })
 
+// 自动追加 embedded 查询参数，触发 Slidev 的嵌入模式（隐藏导航控件）
+const iframeSrc = computed(() => {
+  const base = props.src
+  const separator = base.includes('?') ? '&' : '?'
+  return `${base}${separator}embedded`
+})
+
 function onLoad() {
   loading.value = false
+  // 向 iframe 注入样式，隐藏 Slidev 的 Goto 跳转对话框
+  try {
+    const doc = iframeRef.value?.contentDocument
+    if (doc) {
+      const style = doc.createElement('style')
+      style.textContent = '#slidev-goto-dialog { display: none !important; }'
+      doc.head.appendChild(style)
+    }
+  } catch (e) {
+    // 跨域时忽略
+  }
 }
 
 function toggleFullscreen() {
@@ -78,7 +96,7 @@ if (typeof document !== 'undefined') {
 
       <iframe
         ref="iframeRef"
-        :src="src"
+        :src="iframeSrc"
         :title="title"
         class="slide-embed-iframe"
         allow="fullscreen"

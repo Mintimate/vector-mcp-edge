@@ -11,8 +11,7 @@ drawings:
   persist: false
 transition: slide-left
 mdc: true
-hideInToc: false
-toc: false
+contextMenu: false
 ---
 
 # 让 AI 读懂你的文档
