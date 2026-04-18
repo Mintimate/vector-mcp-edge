@@ -31,7 +31,7 @@ main:
             force: true
     - name: "构建产物"
       imports:
-        - https://cnb.cool/Mintimate/secret/-/blob/main/DocVitePressOMR.yaml
+        - https://cnb.cool/Mintimate/secret/-/blob/main/vector-mcp-edge.yaml
       docker:        
         image: node:22
         volumes:
