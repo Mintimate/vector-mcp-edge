@@ -1,0 +1,9 @@
+# 知识库向量化 - 构建/更新向量索引
+main:
+  push:
+    - name: "向量化数据"
+      stages:
+        - name: build knowledge base
+          image: cnbcool/knowledge-base
+          settings:
+            include: "**/**.md"
