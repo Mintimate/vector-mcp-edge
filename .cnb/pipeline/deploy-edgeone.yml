@@ -1,4 +1,4 @@
-# 构建并部署到 EdgeOne Pages
+# 构建并部署到 EdgeOne Makers
 main:
   push:
     - name: "构建产物"
@@ -15,5 +15,4 @@ main:
         - name: "部署流程"
           image: docker.cnb.cool/flyinbug/dev-ops/nodejs:latest
           script:
-            - npm install -g edgeone
-            - edgeone pages deploy -n vector-mcp-edge -t $EO_SECRET
+            - PAGES_SOURCE=skills npx --no-install edgeone makers deploy -n vector-mcp-edge -t $EO_SECRET
