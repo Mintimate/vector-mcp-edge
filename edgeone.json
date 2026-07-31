@@ -2,7 +2,7 @@
   "name": "vector-mcp-edge",
   "devCommand": "npm run dev --",
   "buildCommand": "npm run build",
-  "installCommand": "npm install",
+  "installCommand": "npm ci",
   "outputDirectory": ".vitepress/dist",
   "nodeVersion": "22.11.0",
   "agents": {

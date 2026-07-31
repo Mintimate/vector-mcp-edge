@@ -5,11 +5,12 @@ include:
 
 $:
   vscode:
-    services:
-      - vscode
-      - docker
-    docker:
-      image: docker.cnb.cool/flyinbug/dev-ops/nodejs:latest
-    stages:
-      - name: 安装依赖
-        script: yarn
+    - name: 云原生开发环境
+      services:
+        - vscode
+        - docker
+      docker:
+        image: docker.cnb.cool/flyinbug/dev-ops/nodejs:latest
+      stages:
+        - name: 安装依赖
+          script: npm ci
