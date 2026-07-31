@@ -9,7 +9,7 @@
 | `POST /chat` | body 为 `{ "message": "..." }`，请求头必须带 `makers-conversation-id` |
 | `POST /stop` | body 为 `{ "conversation_id": "..." }`，当前 Makers runtime 还要求携带同一个 `makers-conversation-id` 请求头 |
 
-`/chat` 返回 SSE，前端处理 `ai_response`、`tool_call`、`tool_result`、`ping`、`usage` 和 `error_message`，并以 `[DONE]` 作为结束标记。
+`/chat` 返回 SSE，前端处理 `reasoning`、`ai_response`、`tool_call`、`tool_result`、`ping`、`usage` 和 `error_message`，并以 `[DONE]` 作为结束标记。支持思考的模型会通过 `reasoning` 返回推理增量，前端将其显示在可折叠的“AI 思考过程”区域。
 
 ## 前端实现
 

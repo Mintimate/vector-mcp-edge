@@ -50,7 +50,7 @@ export async function onRequest(context: any) {
         model: createGatewayModel(env),
         modelSettings: {
           parallelToolCalls: false,
-          providerData: { chat_template_kwargs: { enable_thinking: false } },
+          providerData: { chat_template_kwargs: { enable_thinking: true } },
         },
         tools: [createKnowledgeTool(env, signal)],
       });
@@ -80,6 +80,13 @@ export async function onRequest(context: any) {
 }
 
 function toSseEvent(event: any): Record<string, unknown> | null {
+  if (event.type === 'raw_model_stream_event' && event.data?.type === 'model') {
+    const delta = event.data.event?.choices?.[0]?.delta;
+    const reasoning = delta?.reasoning_content ?? delta?.reasoning;
+    if (typeof reasoning === 'string' && reasoning) {
+      return { type: 'reasoning', content: reasoning };
+    }
+  }
   if (event.type === 'raw_model_stream_event' && event.data?.type === 'output_text_delta') {
     return { type: 'ai_response', content: event.data.delta as string };
   }

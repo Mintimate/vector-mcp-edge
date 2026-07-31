@@ -45,6 +45,7 @@ export function useAgent(convertToHtml, smartScrollToBottom) {
     const decoder = new TextDecoder()
     let buffer = ''
     let answer = ''
+    let reasoning = ''
 
     try {
       while (true) {
@@ -78,10 +79,19 @@ export function useAgent(convertToHtml, smartScrollToBottom) {
             continue
           }
           if (event.type === 'error_message') throw new Error(event.content || 'Agent request failed')
+          if (event.type === 'reasoning' && event.content) {
+            reasoning += event.content
+            messages.value[aiMessageIndex].thinkContent = reasoning
+            messages.value[aiMessageIndex].thinkHtml = convertToHtml(reasoning)
+            messages.value[aiMessageIndex].thinkExpanded = true
+            nextTick(() => smartScrollToBottom())
+            continue
+          }
           if (event.type === 'ai_response' && event.content) {
             answer += event.content
             messages.value[aiMessageIndex].text = answer
             messages.value[aiMessageIndex].html = convertToHtml(answer)
+            if (reasoning) messages.value[aiMessageIndex].thinkExpanded = false
             toolCallStatus.value = false
             nextTick(() => smartScrollToBottom())
           }

@@ -101,6 +101,9 @@ export function useChat(convertToHtml) {
       type: 'ai',
       text: '',
       html: '',
+      thinkContent: '',
+      thinkHtml: '',
+      thinkExpanded: false,
       timestamp: new Date()
     })
     return index

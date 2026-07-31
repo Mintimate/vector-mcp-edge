@@ -79,7 +79,7 @@ curl -N https://<你的域名>/chat \
   -d '{"message":"这个项目的 MCP 如何部署？"}'
 ```
 
-响应应包含 `tool_call`、`tool_result`、`ai_response` 和最终的 `[DONE]`。
+响应应包含 `tool_call`、`tool_result`、`ai_response` 和最终的 `[DONE]`。当前模型支持并开启思考时，还应包含 `reasoning` 事件。
 
 停止运行：
 
