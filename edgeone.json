@@ -1,7 +1,12 @@
 {
-    "name": "vector-mcp-edge",
-    "buildCommand": "npm run build",
-    "installCommand": "npm install",
-    "outputDirectory": ".vitepress/dist",
-    "nodeVersion": "22.11.0"
+  "name": "vector-mcp-edge",
+  "devCommand": "npm run dev --",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": ".vitepress/dist",
+  "nodeVersion": "22.11.0",
+  "agents": {
+    "framework": "openai-agents-sdk",
+    "externalNodeModules": ["openai", "@openai/agents"]
+  }
 }

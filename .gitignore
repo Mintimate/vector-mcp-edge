@@ -50,5 +50,5 @@ cloud-functions/vendor/
 # Slidev 构建产物（由 build:slides 动态生成到 public）
 public/slides/
 
-# EdgeOne Pages 项目文件
+# EdgeOne Makers 项目文件
 .edgeone/
