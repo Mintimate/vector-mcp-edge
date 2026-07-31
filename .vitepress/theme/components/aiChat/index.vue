@@ -99,8 +99,11 @@
               rows="1"
               ref="textareaRef">
             </textarea>
-            <button id="rag-send" @click="sendMessage" :disabled="!inputMessage.trim() || isLoading" class="send-button">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <button id="rag-send" @click="handleComposerAction" :disabled="!isLoading && !inputMessage.trim()" class="send-button" :title="isLoading ? '停止生成' : '发送'">
+              <svg v-if="isLoading" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="5" y="5" width="14" height="14" rx="1" />
+              </svg>
+              <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
               </svg>
             </button>
@@ -114,30 +117,17 @@
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useChat } from './composables/useChat'
 import { useMarkdown } from './composables/useMarkdown'
-import { useToolCall } from './composables/useToolCall'
+import { useAgent } from './composables/useAgent'
 
 /**
- * AI聊天组件（无验证码版本）
- * 基于 knowledge-maker Go 后端，支持 MCP Tool Use 流式对话
+ * EdgeOne Makers 托管 Agent 聊天组件
 */
 
 // Props
 const props = defineProps({
-  mcpBaseUrl: {
-    type: String,
-    default: 'http://localhost:8082/api/v1/mcp'
-  },
-  maxHistoryTurns: {
-    type: Number,
-    default: 3
-  },
   welcomeMessage: {
     type: String,
     default: '您好！我是 AI 助手，可以帮你解答 VitePress MCP 智能检索相关的问题。'
-  },
-  defaultTools: {
-    type: String,
-    default: ''
   }
 })
 
@@ -152,15 +142,12 @@ const {
   isLoading,
   messagesContainer,
   textareaRef,
-  getRecentChatHistory,
   scrollToBottom,
   smartScrollToBottom,
   toggleThink,
   addWelcomeMessage,
   addUserMessage,
   addAiMessagePlaceholder,
-  addAssistantHistory,
-  trimHistory,
   toggleChat,
   closeChat,
   cleanup,
@@ -171,17 +158,10 @@ const {
 const {
   toolCallStatus,
   toolCallSteps,
-  setFallbackTools,
-  fetchMCPTools,
-  executeToolUseFlow,
-  resetToolCallState
-} = useToolCall(convertToHtml, smartScrollToBottom)
-
-// 初始化降级工具定义
-setFallbackTools(props.defaultTools)
-
-// 标记是否已经获取过 MCP 工具列表（懒加载，首次打开聊天窗口时才获取）
-let mcpToolsFetched = false
+  streamMessage,
+  stopAgent,
+  resetAgentState
+} = useAgent(convertToHtml, smartScrollToBottom)
 
 // ==================== 窗口拖拽调整大小 ====================
 const chatWindowRef = ref(null)
@@ -250,14 +230,8 @@ const handleCloseChat = () => {
   closeChat()
 }
 
-// 延迟获取 MCP 工具列表：覆盖 useChat 的 toggleChat，在首次打开时获取
-const originalToggleChat = toggleChat
 const lazyToggleChat = () => {
-  originalToggleChat()
-  if (isOpen.value && !mcpToolsFetched) {
-    mcpToolsFetched = true
-    fetchMCPTools(props.mcpBaseUrl)
-  }
+  toggleChat()
 }
 
 // 键盘事件桥接
@@ -292,41 +266,35 @@ const sendMessage = async () => {
   nextTick(() => { scrollToBottom() })
 
   try {
-    // 构建 LLM 消息（含历史对话）
-    const recentHistory = getRecentChatHistory(props.maxHistoryTurns)
-    const llmMessages = [
-      ...recentHistory.map(h => ({ role: h.role, content: h.content }))
-    ]
-    // 确保最后一条是当前用户消息
-    if (llmMessages.length === 0 || llmMessages[llmMessages.length - 1].content !== userMessage) {
-      llmMessages.push({ role: 'user', content: userMessage })
-    }
-
-    // 执行 Tool Use 完整流程
-    await executeToolUseFlow({
-      mcpBaseUrl: props.mcpBaseUrl,
-      llmMessages,
+    await streamMessage({
+      message: userMessage,
       aiMessageIndex,
-      messages,
-      addAssistantHistory
+      messages
     })
-
-    // 裁剪历史记录
-    trimHistory(props.maxHistoryTurns)
-
   } catch (error) {
+    if (error.name === 'AbortError') return
     console.error('AI请求失败:', error)
-    resetToolCallState()
+    resetAgentState()
     const errorMessage = '抱歉，连接AI服务失败。请检查网络连接或稍后再试。'
     messages.value[aiMessageIndex].text = errorMessage
     messages.value[aiMessageIndex].html = convertToHtml(errorMessage)
   } finally {
     isLoading.value = false
-    resetToolCallState()
+    resetAgentState()
     nextTick(() => {
       scrollToBottom()
     })
   }
+}
+
+const handleComposerAction = () => {
+  if (isLoading.value) {
+    stopAgent().finally(() => {
+      isLoading.value = false
+    })
+    return
+  }
+  sendMessage()
 }
 
 // ==================== 生命周期 ====================

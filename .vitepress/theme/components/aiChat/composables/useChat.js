@@ -12,24 +12,9 @@ export function useChat(convertToHtml) {
   const messagesContainer = ref(null)
   const textareaRef = ref(null)
 
-  // 存储对话历史记录，用于上下文联系
-  const chatHistory = ref([])
-
   // 滚动控制相关
   const isUserScrolling = ref(false)
   const scrollTimeout = ref(null)
-
-  // 存储待发送的消息
-  const pendingMessage = ref('')
-
-  /**
-   * 获取最近的对话历史
-   * @param {number} maxHistoryTurns - 最大历史轮数
-   * @returns {Array} 最近的对话历史
-   */
-  const getRecentChatHistory = (maxHistoryTurns) => {
-    return chatHistory.value.slice(-maxHistoryTurns * 2)
-  }
 
   /**
    * 检查是否应该自动滚动到底部
@@ -104,10 +89,6 @@ export function useChat(convertToHtml) {
       html: convertToHtml(userMessage),
       timestamp: new Date()
     })
-    chatHistory.value.push({
-      role: 'user',
-      content: userMessage
-    })
   }
 
   /**
@@ -123,24 +104,6 @@ export function useChat(convertToHtml) {
       timestamp: new Date()
     })
     return index
-  }
-
-  /**
-   * 将 AI 回答内容添加到历史记录
-   * @param {string} content - AI 回答内容
-   */
-  const addAssistantHistory = (content) => {
-    chatHistory.value.push({ role: 'assistant', content })
-  }
-
-  /**
-   * 裁剪历史记录
-   * @param {number} maxHistoryTurns - 最大历史轮数
-   */
-  const trimHistory = (maxHistoryTurns) => {
-    if (chatHistory.value.length > maxHistoryTurns * 2 * 2) {
-      chatHistory.value = chatHistory.value.slice(-maxHistoryTurns * 2)
-    }
   }
 
   /**
@@ -221,9 +184,6 @@ export function useChat(convertToHtml) {
     isLoading,
     messagesContainer,
     textareaRef,
-    chatHistory,
-    pendingMessage,
-    getRecentChatHistory,
     scrollToBottom,
     smartScrollToBottom,
     handleScroll,
@@ -231,8 +191,6 @@ export function useChat(convertToHtml) {
     addWelcomeMessage,
     addUserMessage,
     addAiMessagePlaceholder,
-    addAssistantHistory,
-    trimHistory,
     toggleChat,
     closeChat,
     cleanup,
