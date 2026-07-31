@@ -1,12 +1,12 @@
 # 场景二：Go RAG 网页助手（已归档）
 
-> ⚠️ **本方案已归档**。EdgeOne Pages 现已支持 Go Cloud Function，本方案的功能已被 [Go Cloud Function 方案](./solution-go-function) 完全替代（无需自建服务器）。保留本页仅供历史参考。
+> ⚠️ **本方案已归档**。EdgeOne Makers 现已支持托管 Agent，本方案的功能已被 [Makers 托管方案](./solution-go-function) 替代（无需自建服务器）。保留本页仅供历史参考。
 >
-> 👉 推荐前往 [Go Cloud Function 方案](./solution-go-function) 查看当前方案。
+> 👉 推荐前往 [Makers 托管方案](./solution-go-function) 查看当前方案。
 
 ---
 
-> 以下为历史内容，介绍早期 EdgeOne Pages 仅支持 JS 时，需要自建 Go 服务器的实现方式。
+> 以下为历史内容，介绍早期 EdgeOne Makers 仅支持 JS 时，需要自建 Go 服务器的实现方式。
 
 通过自建 Go 后端服务，将 AI 问答能力直接嵌入 VitePress 网页，让网站访客无需安装任何工具即可体验 AI 问答。
 
@@ -185,7 +185,7 @@ yarn dev
 
 ## 与场景一的区别
 
-> 注：以下对比为历史参考。当前推荐直接使用 [Go Cloud Function 方案](./solution-go-function)，已合并了两种场景的所有能力。
+> 注：以下对比为历史参考。当前推荐直接使用 [Makers 托管方案](./solution-go-function)，已合并了两种场景的所有能力。
 
 | | 场景一：Serverless MCP | 场景二：Go RAG + 前端 AI 助手 |
 |------|------------------------|-------------------------------|
@@ -208,6 +208,6 @@ yarn dev
 
 ## 下一步
 
-- ⭐ [前往 Go Cloud Function 方案](./solution-go-function) — 当前推荐方案，无需自建服务器
-- 🚀 [立即体验本站 Demo](./mcp-endpoint) — 已使用 Go Cloud Function 部署
+- ⭐ [前往 Makers 托管方案](./solution-go-function) — 当前推荐方案，无需自建服务器
+- 🚀 [立即体验本站 Demo](./mcp-endpoint) — 已使用 EdgeOne Makers 部署
 - 📖 [前往搭建教程](/guide/) — 从零开始搭建

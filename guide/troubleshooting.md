@@ -4,7 +4,7 @@
 
 **可能原因**：
 - 边缘函数路径不正确
-- 部署产物未包含 `cloud-functions/mcp/index.js`
+- `cloud-functions/mcp.js` 未被 Makers 文件路由识别
 - 路由未发布到最新版本
 
 **排查步骤**：
@@ -59,3 +59,20 @@
 1. 再次核对配置文件中的 URL
 2. 重启客户端后重试
 3. 先用 `curl` 验证服务可用，再排查客户端
+
+## 6. 网页 Agent 返回 400
+
+**可能原因**：`/chat` 请求缺少 `makers-conversation-id`。
+
+**排查步骤**：
+1. 在浏览器 Network 中检查请求头
+2. 确认 conversation ID 由 `crypto.randomUUID()` 生成
+3. 确认请求发往 Makers 代理地址而不是裸 VitePress 端口
+
+## 7. Agent 返回环境变量错误
+
+运行 `edgeone makers env ls`，确认 `CNB_KNOWLEDGE_BASE_URL` 与 `CNB_KNOWLEDGE_BASE_TOKEN` 已配置。AI Gateway 的变量需要在 `.env.example` 中声明，才能由 Makers 部署流程自动注入。
+
+## 8. 停止生成无效
+
+确认 `/stop` 的 body 传入 `{ "conversation_id": "..." }`，并在 `makers-conversation-id` 请求头携带同一个 ID。EdgeOne CLI/runtime 1.6.8 会在缺少该请求头时，于 handler 之前返回 `AGENT_CONVERSATION_ID_REQUIRED`。

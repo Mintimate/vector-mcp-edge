@@ -24,11 +24,11 @@ features:
     title: CNB 知识库一键向量化
     details: push 即触发自动分块、Embedding、索引构建，无需自建向量数据库，一行配置即可实现文档语义检索。
   - icon: ⚡
-    title: EdgeOne 边缘函数零成本部署
-    details: 在 EdgeOne Edge Function 中运行 MCP Server，零服务器成本、全球加速、自动部署，真正的零运维。
+    title: EdgeOne Makers 一体化托管
+    details: 同一项目托管 VitePress、MCP Cloud Function 与多轮 Agent，统一构建、部署和观测。
   - icon: 🔀
     title: 两种方案按需选择
-    details: 方案一：让 Cursor、Claude 等 AI 工具直接检索你的文档。方案二（进阶）：网页端内嵌 Go RAG 问答。先主线，后选型。
+    details: 标准 MCP 服务外部 AI 工具，Makers 托管 Agent 服务网页访客，两条入口共享同一份 CNB 知识库。
   - icon: 🌐
     title: 标准 MCP 协议
     details: 遵循 Model Context Protocol 标准接口，你的文档知识库可被任何支持 MCP 的 AI 助手直接接入。

@@ -336,12 +336,12 @@ title: 服务部署在哪里
 </div>
 
 <div class="mt-6 text-xl text-gray-400">
-  你需要一个地方来运行 MCP Server 和 RAG 服务
+  你需要一个地方来运行 MCP Server 和托管 Agent
 </div>
 
 ---
 
-# 为什么用 EdgeOne Pages Cloud Function？
+# 为什么用 EdgeOne Makers？
 
 <div class="grid grid-cols-3 gap-6 mt-6">
 
@@ -375,10 +375,10 @@ title: 服务部署在哪里
   <div class="absolute top-2 right-2 px-2 py-0.5 bg-green-500 text-white text-xs rounded-full font-bold">推荐</div>
   <div class="text-4xl mb-3">⚡</div>
 
-  **EdgeOne Cloud Function** {.text-green-400}
+  **EdgeOne Makers** {.text-green-400}
 
   <div class="mt-3 text-sm text-gray-400 space-y-1">
-    <div>零服务器 🎉</div><div>支持 Go + JS 🚀</div><div>全球 3200+ 节点 🌍</div>
+    <div>零服务器 🎉</div><div>Cloud Function + Agent 🚀</div><div>全球边缘网络 🌍</div>
     <div>延迟 < 50ms ⚡</div><div>自动扩缩容 📈</div><div>Git 推送即部署 🔄</div>
   </div>
 
@@ -389,7 +389,7 @@ title: 服务部署在哪里
 
 ---
 
-# EdgeOne Pages 的杀手级特性
+# EdgeOne Makers 的杀手级特性
 
 <div class="grid grid-cols-2 gap-4 mt-6">
 
@@ -404,8 +404,8 @@ title: 服务部署在哪里
 <div class="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-green-500/5 to-transparent border border-green-500/20">
   <div class="text-4xl">🔧</div>
   <div>
-    <div class="text-lg font-bold text-green-400">Go Cloud Function</div>
-    <div class="text-gray-400 text-sm mt-1">原生 Go 支持，MCP + RAG 一体化运行</div>
+    <div class="text-lg font-bold text-green-400">托管 Agent</div>
+    <div class="text-gray-400 text-sm mt-1">AI Gateway、会话 Store、工具调用与 SSE</div>
   </div>
 </div>
 
@@ -501,9 +501,10 @@ layout: center
 ```mermaid {scale: 0.55, theme: 'dark'}
 flowchart LR
     A["📄 Markdown"] -->|push| B["🧠 CNB 知识库<br/>自动分块 & Embedding"]
-    B -->|语义检索| C["⚡ EdgeOne<br/>Go Cloud Function"]
+    B --> C["⚡ Makers<br/>Node MCP Function"]
+    B --> F["🤖 Makers<br/>托管 Agent"]
     C <-->|MCP| D["🤖 Cursor / Claude"]
-    C <-->|RAG API| E["💬 网页 AI 助手"]
+    F <-->|SSE /chat| E["💬 网页 AI 助手"]
 
     style A fill:#7c3aed,stroke:#7c3aed,color:#fff
     style B fill:#059669,stroke:#059669,color:#fff
@@ -520,7 +521,7 @@ flowchart LR
 
 ---
 
-# 一个 Go 服务，三种能力
+# 一个 Makers 项目，三种能力
 
 <div class="grid grid-cols-3 gap-6 mt-6">
 
@@ -537,33 +538,33 @@ flowchart LR
 </div>
 
 <div class="p-6 rounded-2xl bg-gradient-to-b from-green-500/10 to-transparent border border-green-500/30 relative">
-  <div class="absolute -top-3 left-4 px-3 py-0.5 bg-green-500 text-white text-xs rounded-full font-bold">RAG</div>
+  <div class="absolute -top-3 left-4 px-3 py-0.5 bg-green-500 text-white text-xs rounded-full font-bold">Agent</div>
   <div class="text-4xl mt-2 mb-3 text-center">💬</div>
-  <div class="text-center font-bold text-green-400 text-lg">/api/v1/chat</div>
-  <div class="text-center text-sm text-gray-400 mt-1">流式 / 非流式 RAG 问答</div>
+  <div class="text-center font-bold text-green-400 text-lg">/chat</div>
+  <div class="text-center text-sm text-gray-400 mt-1">托管 Agent SSE 问答</div>
   <div class="mt-3 text-xs text-gray-500 space-y-1">
     <div>→ 网页端 AI 助手</div>
-    <div>→ SSE 流式 + 思考链</div>
-    <div>→ 自定义系统提示词</div>
+    <div>→ AI Gateway + Store</div>
+    <div>→ 多轮会话与停止运行</div>
   </div>
 </div>
 
 <div class="p-6 rounded-2xl bg-gradient-to-b from-purple-500/10 to-transparent border border-purple-500/30 relative">
-  <div class="absolute -top-3 left-4 px-3 py-0.5 bg-purple-500 text-white text-xs rounded-full font-bold">Tool Use</div>
+  <div class="absolute -top-3 left-4 px-3 py-0.5 bg-purple-500 text-white text-xs rounded-full font-bold">Knowledge Tool</div>
   <div class="text-4xl mt-2 mb-3 text-center">🔧</div>
-  <div class="text-center font-bold text-purple-400 text-lg">/api/v1/mcp</div>
-  <div class="text-center text-sm text-gray-400 mt-1">Function Calling 流程</div>
+  <div class="text-center font-bold text-purple-400 text-lg">query_knowledge_base</div>
+  <div class="text-center text-sm text-gray-400 mt-1">Agent 内部工具调用</div>
   <div class="mt-3 text-xs text-gray-500 space-y-1">
-    <div>→ 前端 AI 组件调用</div>
-    <div>→ LLM 自动选择工具</div>
-    <div>→ 多轮对话支持</div>
+    <div>→ Agent 自动选择工具</div>
+    <div>→ CNB 语义检索</div>
+    <div>→ 前端无需手工编排</div>
   </div>
 </div>
 
 </div>
 
 <div class="mt-4 text-center text-gray-400">
-以前需要 <span class="text-red-400 line-through">JS MCP 函数 + 自建 Go 服务器</span> 两套方案 → 现在 <span class="text-green-400 font-bold">一个 Go Cloud Function 全搞定</span>
+以前需要 <span class="text-red-400 line-through">浏览器 Tool Calling + Go 模型服务</span> → 现在 <span class="text-green-400 font-bold">Makers 托管 Agent 直接完成</span>
 </div>
 
 ---
@@ -673,8 +674,8 @@ layout: center
 
 <div class="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-center w-48">
   <div class="text-3xl mb-2">📂</div>
-  <div class="font-bold text-amber-400">放 Go 代码</div>
-  <div class="text-xs text-gray-500 mt-1">cloud-functions/</div>
+  <div class="font-bold text-amber-400">添加服务代码</div>
+  <div class="text-xs text-gray-500 mt-1">agents/ + cloud-functions/</div>
 </div>
 
 <div class="text-3xl text-gray-600">→</div>
@@ -705,5 +706,5 @@ layout: center
 </div>
 
 <div class="mt-10 text-sm text-gray-600">
-CNB 平台知识库 × 腾讯云 EdgeOne Cloud Function × MCP 协议
+CNB 平台知识库 × EdgeOne Makers Agent × MCP 协议
 </div>

@@ -5,7 +5,7 @@ export default withMermaid(
   defineConfig({
     lang: 'zh-CN',
     title: "VitePress MCP 智能检索",
-    description: "基于 CNB 知识库 + EdgeOne Edge Function，为 VitePress 文档站点赋予 AI 语义搜索能力",
+    description: "基于 CNB 知识库 + EdgeOne Makers 托管 Agent，为 VitePress 文档站点赋予 AI 语义搜索能力",
     srcExclude: ['**/README.md', 'DocVitePressOMR', 'slides/**'],
     sitemap: {
       hostname: 'https://vector-mcp-edge.mintimate.cn'
@@ -53,7 +53,7 @@ export default withMermaid(
             text: '架构与方案',
             items: [
               { text: '架构全景图', link: '/features/architecture' },
-              { text: 'Go Cloud Function', link: '/features/solution-go-function' }
+              { text: 'Makers 托管方案', link: '/features/solution-go-function' }
               ]
           },
           {
@@ -85,7 +85,7 @@ export default withMermaid(
             items: [
               { text: '托管到 CNB', link: '/guide/deploy-cnb' },
               { text: '知识库向量化', link: '/guide/knowledge-base' },
-              { text: 'Cloud Function', link: '/guide/cloud-function' },
+              { text: 'Makers 与 Agent', link: '/guide/cloud-function' },
               { text: '部署与验证', link: '/guide/deploy-verify' }
             ]
           },
@@ -114,7 +114,7 @@ export default withMermaid(
         { icon: 'github', link: 'https://github.com/Mintimate/vector-mcp-edge' }
       ],
       footer: {
-        message: '基于 CNB 平台知识库 + 腾讯云 EdgeOne Edge Function',
+        message: '基于 CNB 平台知识库 + 腾讯云 EdgeOne Makers 托管 Agent',
         copyright: 'Copyright © 2026 | <a href="https://www.mintimate.cn" target="_blank">Mintimate 博客</a> · <a href="https://space.bilibili.com/355567627" target="_blank">B站</a>'
       },
       search: {

@@ -21,10 +21,10 @@ git push -u origin main
 
 ![CNB 的仓库详情](./assets/cnb-repo-detail.webp)
 
-## 配置 EdgeOne Pages 部署
+## 配置 EdgeOne Makers 部署
 
-当前使用 EdgeOne Pages 作为边缘部署平台，主要两个好处：
-1. VitePress 就是基于 Node.js 的，可以直接部署在 EdgeOne Pages 上，并且支持 Cloud Function 服务。
+当前使用 EdgeOne Makers 作为边缘部署平台，主要两个好处：
+1. VitePress 就是基于 Node.js 的，可以直接部署在 EdgeOne Makers 上，并且支持 Cloud Function 服务。
 2. 部署速度快，全球 CDN 加速，支持自定义域名和 HTTPS。
 
 在项目根目录创建 `edgeone.json`：
@@ -45,11 +45,11 @@ git push -u origin main
 | `outputDirectory` | VitePress 默认的构建输出目录 |
 | `nodeVersion` | 指定 Node.js 版本 |
 
-详细的内容请参考 [EdgeOne Pages 项目指南](https://pages.edgeone.ai/zh/document/edgeone-json)。
+详细的内容请参考 [EdgeOne Makers 项目指南](https://pages.edgeone.ai/zh/document/edgeone-json)。
 
-后续的 EdgeOne Pages 触发后，会自动进行部署:
+后续的 EdgeOne Makers 触发后，会自动进行部署:
 
-![EdgeOne Pages 触发部署](./assets/edgeone-pages-deploy.webp)
+![EdgeOne Makers 触发部署](./assets/edgeone-pages-deploy.webp)
 
 ## 为什么选择 CNB？
 
@@ -64,9 +64,9 @@ CNB（Cloud Native Build）是腾讯云推出的云原生构建平台，不仅�
 | **制品库** | 内置 Docker 镜像制品库和 Helm 制品库，流水线中一键推送 | 需额外搭建或购买镜像仓库服务 |
 | **一站式体验** | 代码托管 → 知识库向量化 → 构建部署 → MCP / RAG 服务，全链路打通 | 需拼凑 GitHub + Pinecone + Vercel + 多个平台 |
 
-## 为什么选择 EdgeOne Pages？
+## 为什么选择 EdgeOne Makers？
 
-[EdgeOne Pages](https://pages.edgeone.ai/zh) 是腾讯云推出的**边缘全栈开发平台**，基于云边一体化架构，融合托管、加速、计算与集成能力。在本项目中，我们使用 EdgeOne Pages 部署 VitePress 静态站点和 MCP Server（Cloud Function）。
+[EdgeOne Makers](https://pages.edgeone.ai/zh) 是腾讯云推出的**边缘全栈开发平台**，基于云边一体化架构，融合托管、加速、计算与集成能力。在本项目中，我们使用 EdgeOne Makers 部署 VitePress 静态站点和 MCP Server（Cloud Function）。
 
 | 特性 | 说明 |
 |------|------|
@@ -79,10 +79,10 @@ CNB（Cloud Native Build）是腾讯云推出的云原生构建平台，不仅�
 | **协作开发** | 支持团队分支协作与实时预览，随时查看代码效果 |
 | **免费额度** | 提供免费使用额度，个人项目和小型站点零成本上线 |
 
-![EdgeOne Pages 的免费额度](./assets/limit-of-edgeone-pages.webp)
+![EdgeOne Makers 的免费额度](./assets/limit-of-edgeone-pages.webp)
 
-::: tip 本项目为什么用 EdgeOne Pages？
-1. VitePress 基于 Node.js，可以直接部署静态站点到 EdgeOne Pages
+::: tip 本项目为什么用 EdgeOne Makers？
+1. VitePress 基于 Node.js，可以直接部署静态站点到 EdgeOne Makers
 2. Cloud Function 支持在边缘运行 MCP Server，零服务器成本
 3. 与 CNB 流水线配合，`git push` 即可自动构建部署
 4. 全球 CDN 加速，支持自定义域名和 HTTPS

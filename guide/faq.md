@@ -1,26 +1,28 @@
 # 常见问题 FAQ
 
-## 为什么不建议一上来就做 Go RAG 服务？
+## 为什么 MCP 与 Agent 要分开放？
 
-因为方案一（EdgeOne MCP Server）上线更快、运维更轻，足以覆盖“开发者用 AI 工具检索文档”的主需求。建议先验证价值，再按需建设方案二。
+MCP 是外部客户端的协议入口，Agent 是网页端的模型运行时。分开后路径级 Node Function 无需持有模型密钥或会话状态，Agent 则可以直接使用 Makers AI Gateway、Store 和中止能力。
 
 ## 为什么我会觉得“快速开始”和“方案对比”冲突？
 
 当两者处于同级主入口时，新用户会在“先做什么”上犹豫。正确做法是：先主线落地，再做方案选型。
 
-## CNB_TOKEN 需要手动配置吗？
+## CNB Token 需要手动配置吗？
 
-通常不需要。CNB 在流水线和边缘函数环境会自动注入；本地调试时再用 `.env` 或平台变量补充。
+托管 Agent 中的 `CNB_KNOWLEDGE_BASE_TOKEN` 是业务变量，需要通过 `edgeone makers env set` 配置。不要把 Token 暴露到 `AI_` 前缀的浏览器变量中。
 
 ## `top_k` 设置多少合适？
 
 建议从 3 开始。若召回不足可升到 5；若噪音过多可降到 2~3 并结合 `keyword` 过滤。
 
-## 可以同时用两套方案吗？
+## 多轮历史保存在哪里？
 
-可以。两套方案共享 CNB 知识库：
-- 方案一服务开发者工具
-- 方案二服务网页端访客
+前端只保存一个 conversation ID。具体消息由 `context.store.openaiSession(conversationId)` 管理，不需要浏览器重复发送历史数组。
+
+## AI Gateway 变量需要手动上传吗？
+
+只要 `.env.example` 声明 `AI_GATEWAY_API_KEY` 与 `AI_GATEWAY_BASE_URL`，Makers 部署流程会自动配置。`AI_GATEWAY_MODEL` 可以留空使用项目默认模型。
 
 ## 如何判断检索质量是否变差？
 

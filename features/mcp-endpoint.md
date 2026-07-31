@@ -1,8 +1,8 @@
 # 在线体验：本站 MCP 端点 <Badge type="tip" text="Live Demo" />
 
-本项目不仅是一份教程，**它本身就是一个可运行的 Demo**。我们已经将本站的文档知识库通过 EdgeOne Pages Go Cloud Function 暴露为标准 MCP 端点，你可以立即接入体验。
+本项目不仅是一份教程，**它本身就是一个可运行的 Demo**。本站通过 EdgeOne Makers Node Cloud Function 暴露标准 MCP 端点，同时由 Makers Agent 提供网页问答。
 
-> 💡 这就是 [Go Cloud Function 方案](./solution-go-function) 的真实落地效果。配置好后，你可以直接在 AI 编辑器中提问关于本教程的问题，AI 会自动查询知识库来回答。
+> 💡 这是 [Makers 混合方案](./solution-go-function) 的协议入口。外部 AI 工具通过 MCP 查询知识库，网页访客则使用托管 Agent。
 
 ## 端点信息
 
@@ -95,7 +95,7 @@ Cherry Studio 的配置格式与其他客户端不同，请注意使用 `baseUrl
 
 配置完成后，在 AI 对话中直接提问即可，AI 会自动选择合适的工具来回答：
 
-- *"如何将 VitePress 部署到 EdgeOne Pages？"* → 调用 `query_knowledge_base`
+- *"如何将 VitePress 部署到 EdgeOne Makers？"* → 调用 `query_knowledge_base`
 - *"CNB 知识库怎么配置向量化？"* → 调用 `query_knowledge_base`
 - *"这个项目用了什么技术栈？"* → 调用 `get_project_info`
 - *"快速开始需要几步？"* → 调用 `get_quickstart`
@@ -133,12 +133,12 @@ curl -X POST https://vector-mcp-edge.mintimate.cn/mcp \
 # 调用工具 - 搜索文档
 curl -X POST https://vector-mcp-edge.mintimate.cn/mcp \
   -H "Content-Type: application/json" \
-  -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"query_knowledge_base","arguments":{"query":"如何部署到EdgeOne Pages"}}}'
+  -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"query_knowledge_base","arguments":{"query":"如何部署到EdgeOne Makers"}}}'
 ```
 
 ## 技术实现
 
-本 MCP 端点基于 [方案三（Go Cloud Function）](./solution-go-function) 部署。它使用 EdgeOne Pages 的 Go Cloud Function 能力，将 MCP Server、RAG 问答和 Tool Use 接口一体化运行在边缘函数上，通过 CNB 知识库的向量语义检索能力，将本站的 Markdown 文档自动向量化并建立索引。
+本 MCP 端点基于 [EdgeOne Makers 混合方案](./solution-go-function) 部署。路径级 Node Cloud Function 只负责 MCP Streamable HTTP 与知识库工具；模型推理和网页会话由独立的托管 Agent 负责。
 
 ```mermaid
 flowchart TD

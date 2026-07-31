@@ -1,62 +1,48 @@
 # 架构全景图
 
-本项目核心是：**以 CNB 知识库为统一检索底座**，通过 Go Cloud Function 向上提供 MCP 端点和网页端 AI 助手。
+本项目以 **CNB 知识库为统一检索底座**，在 EdgeOne Makers 中分别托管标准 MCP 服务与网页端 Agent。
 
 ## 当前架构
 
 ```mermaid
 flowchart TB
-
-    subgraph Base ["🗄️ 知识底座"]
-        A["📄 VitePress Markdown"] -->|文档 push| B["🔄 CNB 流水线<br/>分块 & 向量化"]
-        B --> C["🗄️ CNB 知识库 API"]
+    subgraph Base ["知识底座"]
+        A["VitePress Markdown"] -->|文档 push| B["CNB 流水线<br/>分块与向量化"]
+        B --> C["CNB 知识库 API"]
     end
 
-    subgraph GoFunc ["⭐ Go Cloud Function（当前方案）"]
-        H["EdgeOne Go Function<br/>MCP + RAG + Tool Use"] --> I["🤖 外部 AI 工具<br/>Cursor / Claude 等"]
-        H --> J["💬 VitePress 前端<br/>AI 助手组件"]
+    subgraph Makers ["EdgeOne Makers"]
+        D["VitePress 静态站点"]
+        E["Node Cloud Function<br/>/mcp"]
+        F["托管 Agent<br/>/chat /stop"]
+        G["AI Gateway"]
+        H["会话 Store"]
     end
 
-    C -->|MCP + API| H
-
-    %% 泳道/分组样式
-    style Base fill:#f8f9fa,stroke:#cfd8dc,stroke-width:2px,stroke-dasharray: 5 5
-    style GoFunc fill:#fff3e0,stroke:#ffb74d,stroke-width:2px,stroke-dasharray: 5 5
-
-    %% 节点样式
-    style A fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
-    style B fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style C fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style H fill:#fff3e0,stroke:#ff6f00,stroke-width:2px
-    style I fill:#ffffff,stroke:#5e35b1,stroke-width:2px
-    style J fill:#ffffff,stroke:#ad1457,stroke-width:2px
+    I["Cursor / Claude / VS Code"] <-->|MCP Streamable HTTP| E
+    J["网页 AI 助手"] -->|SSE + conversation id| F
+    E --> C
+    F -->|query_knowledge_base| C
+    F --> G
+    F --> H
+    D --> J
 ```
 
-::: details 📜 历史架构：早期分开部署方案
-由于 EdgeOne Pages 早期仅支持 JS Cloud Function，本项目最初将功能拆分为两种独立方案：
+## 数据流
 
-- **方案一（JS MCP）**：用 JS 边缘函数实现 MCP Server，仅提供外部 AI 工具检索
-- **方案二（Go RAG 自建）**：需要自建 Go 服务器，提供网页端 AI 问答
+1. Markdown 更新触发 CNB 流水线，文档被分块并写入知识库。
+2. 外部 AI 工具通过 `/mcp` 调用路径级 Node Cloud Function 中的知识库工具。
+3. 网页组件调用 `/chat`，并在请求头携带 `makers-conversation-id`。
+4. Makers 将 AI Gateway、`context.store`、中止信号与观测能力注入 Agent 运行时。
+5. Agent 自主调用 `query_knowledge_base`，再将 `ai_response` 等 SSE 事件流式返回前端。
 
-2026 年 4 月 EdgeOne Pages 支持 Go Cloud Function 后，两种方案已合并升级为当前的一体化架构。
-:::
+## 职责边界
 
-## 数据流说明
+- **CNB**：文档向量化、知识库存储和语义查询。
+- **Node Cloud Function**：精确映射 `/mcp`，实现标准 MCP 协议且不承担模型推理。
+- **Makers Agent**：模型推理、知识库工具调用、多轮会话、SSE 和停止运行。
+- **前端组件**：交互与渲染，不再手工编排 Function Calling 或拼接历史消息。
 
-1. 文档更新后推送到仓库
-2. CNB 流水线自动将 Markdown 分块并向量化
-3. Go Cloud Function 通过 CNB 知识库 API 检索语义片段
-4. `/mcp` 路由对外提供标准 MCP 协议，供 Cursor、Claude 等 AI 工具接入
-5. `/api/v1/chat/*` 和 `/api/v1/mcp/*` 路由提供 RAG 问答和 Tool Use，供前端 AI 助手组件使用
+## 为什么这样拆分
 
-## 边界与职责
-
-- **CNB**：文档向量化、知识库存储、查询 API
-- **EdgeOne Go Function**：MCP 端点 + RAG 问答 + Tool Use，一体化边缘函数
-- **前端组件**：交互体验、流式渲染、历史记录
-
-## 设计原则
-
-- 单一数据源：只维护一份文档知识库
-- 协议标准化：优先使用 MCP，降低工具接入成本
-- 一体化部署：一个 Go Cloud Function 同时覆盖 MCP + RAG + Tool Use，无需分开部署
+MCP 是面向外部客户端的协议入口，路径级 Node Function 不会接管静态站点路由；网页问答需要模型、会话与流式运行，放进 Makers Agent 能直接使用平台托管能力。两者共享 CNB 知识库，但各自只有一个明确职责。

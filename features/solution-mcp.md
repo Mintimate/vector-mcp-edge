@@ -1,18 +1,18 @@
 # 场景一：JS Serverless MCP（已归档）
 
-> ⚠️ **本方案已归档**。EdgeOne Pages 现已支持 Go Cloud Function，本方案的功能已被 [Go Cloud Function 方案](./solution-go-function) 完全替代。保留本页仅供历史参考。
+> ⚠️ **本方案已归档**。当前项目使用路径级 Node Cloud Function 提供 MCP，并使用 Makers 托管 Agent 提供网页问答。保留本页仅供历史参考。
 >
-> 👉 推荐前往 [Go Cloud Function 方案](./solution-go-function) 查看当前方案。
+> 👉 推荐前往 [Makers 托管方案](./solution-go-function) 查看当前方案。
 
 ---
 
-> 以下为历史内容，介绍早期 EdgeOne Pages 仅支持 JS 时的实现方式。
+> 以下为历史内容，介绍早期 EdgeOne Makers 仅支持 JS 时的实现方式。
 
-通过 EdgeOne Pages 的 JS Cloud Function 部署 MCP Server，让 Cursor、Claude、VS Code 等外部 AI 工具直接检索你的文档知识库，**全程无需自建服务器**。
+通过 EdgeOne Makers 的 JS Cloud Function 部署 MCP Server，让 Cursor、Claude、VS Code 等外部 AI 工具直接检索你的文档知识库，**全程无需自建服务器**。
 
 ## 场景定位
 
-本方案利用 CNB 的知识库向量化流水线 + EdgeOne Pages Cloud Function，以 Serverless 方式对外暴露标准 MCP 协议端点。外部 AI 工具通过 MCP 协议调用你的知识库，完成语义检索。
+本方案利用 CNB 的知识库向量化流水线 + EdgeOne Makers Cloud Function，以 Serverless 方式对外暴露标准 MCP 协议端点。外部 AI 工具通过 MCP 协议调用你的知识库，完成语义检索。
 
 ```mermaid
 flowchart LR
@@ -27,7 +27,7 @@ flowchart LR
 ## 工作原理
 
 1. **文档向量化**：通过 CNB 流水线，Git 推送时自动将 Markdown 文档分块并向量化，存入 CNB 知识库
-2. **MCP Server**：EdgeOne Pages Cloud Function 作为 MCP Server，封装 CNB 知识库查询接口
+2. **MCP Server**：EdgeOne Makers Cloud Function 作为 MCP Server，封装 CNB 知识库查询接口
 3. **AI 工具调用**：外部 AI 工具（Cursor、Claude 等）通过 MCP 协议调用 Server，获取语义检索结果
 4. **LLM 推理**：AI 工具自带的 LLM 基于检索结果生成回答
 
@@ -75,8 +75,8 @@ flowchart LR
 https://<你的域名>/mcp
 ```
 
-::: tip 已迁移到 Go Cloud Function
-本站已使用 Go Cloud Function 部署，同时提供 MCP 端点和网页端 AI 助手。前往 [本站 MCP 端点（Live Demo）](./mcp-endpoint) 获取配置。
+::: tip 已迁移到 Makers
+本站已使用 Makers Node Cloud Function + 托管 Agent 部署。前往 [本站 MCP 端点（Live Demo）](./mcp-endpoint) 获取配置。
 :::
 
 ## 场景优势
@@ -91,7 +91,7 @@ https://<你的域名>/mcp
 
 ## 与场景二的区别
 
-> 注：以下对比为历史参考。当前推荐直接使用 [Go Cloud Function 方案](./solution-go-function)，已合并了两种场景的所有能力。
+> 注：以下对比为历史参考。当前推荐直接使用 [Makers 托管方案](./solution-go-function)，已合并了两种场景的所有能力。
 
 | | 场景一：Serverless MCP | 场景二：Go RAG + 前端 AI 助手 |
 |------|------------------------|-------------------------------|
@@ -100,10 +100,10 @@ https://<你的域名>/mcp
 | **服务器** | 无（EdgeOne 边缘函数） | 需自建或云服务器 |
 | **上线速度** | ⚡ 快（推荐首选） | 中等（需要联调） |
 
-> 两种场景已合并为 Go Cloud Function 方案。详见 [方案演进与对比](./solutions)。
+> 两种场景已合并为 Makers 托管方案。详见 [方案演进与对比](./solutions)。
 
 ## 下一步
 
-- ⭐ [前往 Go Cloud Function 方案](./solution-go-function) — 当前推荐方案
-- 🚀 [立即体验本站 Demo](./mcp-endpoint) — 已使用 Go Cloud Function 部署
+- ⭐ [前往 Makers 托管方案](./solution-go-function) — 当前推荐方案
+- 🚀 [立即体验本站 Demo](./mcp-endpoint) — 已使用 EdgeOne Makers 部署
 - 📖 [前往搭建教程](/guide/) — 从零开始搭建
